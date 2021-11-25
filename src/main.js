@@ -1,4 +1,6 @@
+import GameScene from "./scenes/game"
 
+var gameScene = new GameScene()
 
 const config = {
 	type: Phaser.AUTO,
@@ -20,6 +22,7 @@ const config = {
 };
 
 var game = new Phaser.Game(config);
+console.log('initialised game');
 
 game.scene.add('gameScene', gameScene);
 
