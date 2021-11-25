@@ -1,4 +1,22 @@
+const config =
+{
+	type: Phaser.AUTO,
+	pixelArt: false,
+	roundPixels: false,
+	width: 800,
+	height: 400,
+	backgroundColor: 0x000000,
+};
+
+var player_config =
+{
+	width: 43,
+	height: 47,
+	starting_x: 43,
+	starting_y: config.height - (47 + 20),
+}
 var player;
+
 var cursors;
 
 class GameScene extends Phaser.Scene
@@ -22,7 +40,7 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('created');
 		
-		player = this.physics.add.sprite(10, 10, 'running_soldier').setScale(1.5);
+		player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
 		player.setCollideWorldBounds(true);
 		player.setBounce(0.2);
 		
@@ -31,7 +49,12 @@ class GameScene extends Phaser.Scene
 			frames: this.anims.generateFrameNumbers('running_soldier', { start: 0, end: 6 }),
 			frameRate: 10,
 			repeat: -1
-	  });
+		});
+		this.anims.create({
+			key: 'jump',
+			frames: this.anims.generateFrameNumbers('running_soldier', { start: 1, end: 1}),
+			frameRate: 10
+		})
 	  
 	  cursors = this.input.keyboard.createCursorKeys();
 	}
@@ -39,7 +62,15 @@ class GameScene extends Phaser.Scene
 	update ()
 	{
 		player.anims.play('move', true);
+		updatePlayer();
 	}
 }
 
+function updatePlayer ()
+{
+	if (cursors.up.isDown)
+	{
+		player.anims.play('jump', true);
+	}
+}
 export default GameScene;
