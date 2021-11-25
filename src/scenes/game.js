@@ -15,7 +15,6 @@ var player_config =
 	starting_x: 43,
 	starting_y: config.height - (47 + 20),
 }
-var player;
 
 var cursors;
 
@@ -40,9 +39,9 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('created');
 		
-		player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
-		player.setCollideWorldBounds(true);
-		player.setBounce(0.2);
+		this.player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
+		this.player.setCollideWorldBounds(true);
+		this.player.setBounce(0.2);
 		
 		this.anims.create({
 			key: 'move',
@@ -61,11 +60,11 @@ class GameScene extends Phaser.Scene
 	
 	update ()
 	{
-		updatePlayer();
+		updatePlayer(this.player);
 	}
 }
 
-function updatePlayer ()
+function updatePlayer (player)
 {
 	if (cursors.up.isDown)
 	{
