@@ -1,0 +1,10 @@
+body {
+	display: grid;
+	justify-items: center;
+}
+
+.game-canvas {
+	align-self: center;
+	display: block;
+	margin: auto;
+}

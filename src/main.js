@@ -6,8 +6,8 @@ const config = {
 	type: Phaser.AUTO,
 	pixelArt: false,
 	roundPixels: false,
-	width: 1000,
-	height: 700,
+	width: 800,
+	height: 400,
 	backgroundColor: 0x000000,
 	
 	physics: {
