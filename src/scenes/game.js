@@ -13,7 +13,7 @@ var player_config =
 	width: 43,
 	height: 47,
 	starting_x: 43,
-	starting_y: config.height - (47 + 20),
+	starting_y: config.height - 10,
 }
 
 var cursors;
