@@ -61,7 +61,6 @@ class GameScene extends Phaser.Scene
 	
 	update ()
 	{
-		player.anims.play('move', true);
 		updatePlayer();
 	}
 }
@@ -72,5 +71,10 @@ function updatePlayer ()
 	{
 		player.anims.play('jump', true);
 	}
+	else
+	{
+		player.anims.play('move', true);
+	}
 }
+
 export default GameScene;
