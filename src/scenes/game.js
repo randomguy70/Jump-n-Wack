@@ -30,6 +30,7 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('preloaded');
 		
+		this.load.image('background', './src/assets/background.png');
 		this.load.spritesheet('running_soldier', 
 		'./src/assets/running_soldier.png', { frameWidth: 43, frameHeight: 47 }
 		);
@@ -38,6 +39,7 @@ class GameScene extends Phaser.Scene
 	create ()
 	{
 		console.log('created');
+		this.add.image(0, 0, 'background').setOrigin(0, 0);
 		
 		this.player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
 		this.player.setCollideWorldBounds(true);
