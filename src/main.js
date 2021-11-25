@@ -1,4 +1,4 @@
-import GameScene from "./scenes/game"
+import GameScene from './scenes/game'
 
 var gameScene = new GameScene()
 
@@ -18,7 +18,7 @@ const config = {
 		}
 	},
 	
-	scenes: [ titleScene, gameScene ]
+	scenes: [ gameScene ]
 };
 
 var game = new Phaser.Game(config);
