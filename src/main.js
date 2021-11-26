@@ -8,7 +8,7 @@ const config = {
 	roundPixels: false,
 	width: 800,
 	height: 400,
-	backgroundColor: 0x1c0098,
+	// backgroundColor: 0x1c0098,
 	
 	physics: {
 		default: 'arcade',
