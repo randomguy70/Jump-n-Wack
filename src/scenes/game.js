@@ -52,7 +52,7 @@ class GameScene extends Phaser.Scene
 		this.player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
 		this.player.setCollideWorldBounds(true);
 		this.player.setBounce(0.2);
-		this.player.body.setGravityY(300);
+		this.player.body.setGravityY(500);
 				
 		this.anims.create({
 			key: 'move',
@@ -77,15 +77,14 @@ class GameScene extends Phaser.Scene
 }
 
 function updatePlayer (player)
-{
+{	
+	player.anims.play('move', true);
+	
 	if (cursors.up.isDown)
 	{
-		player.anims.play('jump', true);
+		player.setVelocityY(1000);
 	}
-	else
-	{
-		player.anims.play('move', true);
-	}
+	
 }
 
 function moveGround (ground1, ground2)
