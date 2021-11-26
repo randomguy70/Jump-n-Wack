@@ -13,7 +13,7 @@ var player_config =
 	width: 43,
 	height: 47,
 	starting_x: 43,
-	starting_y: config.height - 40,
+	starting_y: config.height - 10,
 }
 
 var cursors;
@@ -41,7 +41,7 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('created');
 		this.add.image(0, 0, 'background').setOrigin(0, 0);
-		this.add.image(0, config.height-30, 'ground').setOrigin(0, 0);
+		this.add.image(0, config.height-100, 'ground').setOrigin(0, 0);
 		
 		this.player = this.physics.add.sprite(player_config.starting_x, player_config.starting_y, 'running_soldier').setScale(1.5);
 		this.player.setCollideWorldBounds(true);
