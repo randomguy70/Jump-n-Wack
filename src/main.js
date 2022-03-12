@@ -1,4 +1,4 @@
-import GameScene from './src/scenes/game.js'
+import GameScene from './scenes/game.js'
 
 var gameScene = new GameScene()
 
