@@ -1,4 +1,4 @@
-import GameScene from './scenes/game.js'
+import GameScene from './src/scenes/game.js'
 
 var gameScene = new GameScene()
 
@@ -8,16 +8,16 @@ const config = {
 	roundPixels: false,
 	width: 800,
 	height: 400,
-	// backgroundColor: 0x1c0098,
-	
+	backgroundColor: 0xffffff,
+
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 0, x: 0 },
+			gravity: { y: 5, x: 0 },
 			debug: false
 		}
 	},
-	
+
 	scenes: [ gameScene ]
 };
 
