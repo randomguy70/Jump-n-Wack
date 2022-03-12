@@ -33,8 +33,7 @@ class GameScene extends Phaser.Scene
 		console.log('preloaded');
 
 		this.load.image('background', './src/assets/background.jpg');
-		this.load.spritesheet('running_soldier',
-		'./src/assets/running_soldier.png', { frameWidth: 43, frameHeight: 47 }
+		this.load.spritesheet('running_soldier', './src/assets/running_soldier.png', { frameWidth: 10, frameHeight: 47 }
 		);
 	}
 	
