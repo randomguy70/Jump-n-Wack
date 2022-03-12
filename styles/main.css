@@ -1,9 +1,10 @@
 body {
-	display: grid;
 	justify-items: center;
+	align-items: center;
+	text-align: center;
 }
 
-.game-canvas {
+.phaser-canvas {
 	align-self: center;
 	display: block;
 	margin: auto;

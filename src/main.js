@@ -3,12 +3,12 @@ import GameScene from './scenes/game.js'
 var gameScene = new GameScene()
 
 const config = {
-	type: Phaser.AUTO,
-	pixelArt: false,
-	roundPixels: false,
+	type: Phaser.WEBGL,
+	// parent: 'phaser-canvas', I'll figure out why this isn't working later
+	pixelArt: true,
 	width: 800,
 	height: 400,
-	backgroundColor: 0xffffff,
+	backgroundColor: 0x0000ff,
 
 	physics: {
 		default: 'arcade',
@@ -27,3 +27,5 @@ console.log('initialised game');
 game.scene.add('gameScene', gameScene);
 
 game.scene.start('gameScene');
+
+export default config;
