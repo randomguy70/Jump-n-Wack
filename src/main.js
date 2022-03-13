@@ -3,11 +3,12 @@ import GameScene from './scenes/game.js'
 var gameScene = new GameScene()
 
 const config = {
-	type: Phaser.WEBGL,
+	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
 	backgroundColor: '#2d2d2d',
-
+	// parent: 'game-container',
+	
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -16,10 +17,16 @@ const config = {
 		}
 	},
 	
-	scenes: [ gameScene ]
+	scenes: [ gameScene ],
+	
+	assets: '../assets/',
+	
+	level: 0,
+	lives: 1,
+	score: 0,
 };
 
-var game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
 console.log('initialised game');
 
 game.scene.add('gameScene', gameScene);

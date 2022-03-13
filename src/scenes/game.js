@@ -15,22 +15,22 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('preloaded');
 		
-		this.load.image('tiles', '../src/assets/tilemaps/Terrain.png');
-		this.load.tilemapTiledJSON('map', '../src/assets/tilemaps/maps/map1.json');
-		
-		// this.load.image('background', './src/assets/background.jpg');
-		/*
-		this.load.spritesheet('running_soldier', './src/assets/running_soldier.png', { frameWidth: 10, frameHeight: 47 }
-		);
-		*/
+		this.load.image("tiles", '../assets/tilesets/Terrain.png');
+		this.load.tilemapTiledJSON("map", "../assets/tilemaps/map1.json");
 	}
 	
 	create ()
 	{
 		console.log('created');
-		var map = this.make.tilemap({ key: 'map' });
 		
-		this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+		const map = this.make.tilemap({ key: "map" });
+		
+		// Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+		// Phaser's cache (i.e. the name you used in preload)
+		const tileset = map.addTilesetImage("tileset", "tiles");
+
+		// Parameters: layer name (or index) from Tiled, tileset, x, y
+		const worldLayer = map.createLayer("World", tileset, 0, 0);
 		
 		var cursors = this.input.keyboard.createCursorKeys();
 		

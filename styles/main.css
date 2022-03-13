@@ -4,7 +4,8 @@ body {
 	text-align: center;
 }
 
-.phaser-canvas {
+#game-container {
+	background-color: red;
 	align-self: center;
 	display: block;
 	margin: auto;
