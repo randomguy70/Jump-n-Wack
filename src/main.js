@@ -4,11 +4,9 @@ var gameScene = new GameScene()
 
 const config = {
 	type: Phaser.WEBGL,
-	// parent: 'phaser-canvas', I'll figure out why this isn't working later
-	pixelArt: true,
 	width: 800,
-	height: 400,
-	backgroundColor: 0x0000ff,
+	height: 600,
+	backgroundColor: '#2d2d2d',
 
 	physics: {
 		default: 'arcade',
@@ -17,7 +15,7 @@ const config = {
 			debug: false
 		}
 	},
-
+	
 	scenes: [ gameScene ]
 };
 
