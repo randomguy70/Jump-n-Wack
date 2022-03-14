@@ -29,7 +29,7 @@ class GameScene extends Phaser.Scene
 		const tileset = map.addTilesetImage("tileset", "tiles");
 		
 		// Parameters: layer name (or index) from Tiled, tileset, x, y
-		const worldLayer = map.createLayer(0, tileset, 0, 0);
+		const worldLayer = map.createLayer("World", tileset, 0, 0);
 		
 		// var cursors = this.input.keyboard.createCursorKeys();
 		
