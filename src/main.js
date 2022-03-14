@@ -6,8 +6,8 @@ const config = {
 	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
-	backgroundColor: '#2d2d2d',
-	// parent: 'game-container',
+	backgroundColor: '#87ceeb',
+	parent: 'game-container',
 	
 	physics: {
 		default: 'arcade',
@@ -29,8 +29,11 @@ const config = {
 const game = new Phaser.Game(config);
 console.log('initialised game');
 
-game.scene.add('gameScene', gameScene);
+game.scale.pageAlignHorizontally = true;
+game.scale.pageAlignVertically = true;
+game.scale.refresh();
 
+game.scene.add('gameScene', gameScene);
 game.scene.start('gameScene');
 
 export default config;

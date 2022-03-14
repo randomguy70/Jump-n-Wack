@@ -4,9 +4,21 @@ body {
 	text-align: center;
 }
 
+.page-container {
+	margin: 50px;
+	padding: 20%;
+	justify-items: center;
+	align-items: center;
+	text-align: center;
+}
+
 #game-container {
-	background-color: red;
 	align-self: center;
 	display: block;
+	margin: auto;
+}
+
+canvas {
+	display: block;   
 	margin: auto;
 }
