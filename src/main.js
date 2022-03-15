@@ -17,7 +17,7 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 0, x: 0 },
+			gravity: { y: 9500, x: 0 },
 			debug: false
 		}
 	},
@@ -29,7 +29,10 @@ const config = {
 	level: 0,
 	lives: 1,
 	score: 0,
-	speed: 40,
+	speed: {
+		x: 80,
+		y: 500
+	},
 };
 
 const game = new Phaser.Game(config);

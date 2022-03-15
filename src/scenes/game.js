@@ -1,14 +1,16 @@
 import config from "../main.js";
 
- let player;
- let cursors;
- let controls;
- let camera;
+let gravity = 200;
+
+let player;
+let cursors;
+let controls;
+let camera;
  
- let tileset;
- let belowPlayerLayer;
- let worldLayer;
- let abovePlayerLayer;
+let tileset;
+let belowPlayerLayer;
+let worldLayer;
+let abovePlayerLayer;
 
 class GameScene extends Phaser.Scene
 {
@@ -47,15 +49,20 @@ class GameScene extends Phaser.Scene
 		worldLayer = map.createLayer("World", tileset, 0, 0);
 		abovePlayerLayer = map.createLayer("Above Player", tileset, 0, 0);
 		
-		// initialise object
+		// initialise objects
 		
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
 		player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
 		
 		// collisions
 		
-		worldLayer.setCollisionByProperty({ collides: true });
+		// worldLayer.setCollisionBetween(0, 150);
+		worldLayer.setCollisionByProperty({ Collides: true });
 		this.physics.add.collider(player, worldLayer);
+		
+		// physics (other)
+		
+		player.body.setGravityY(gravity);
 		
 		// animations
 		
@@ -65,14 +72,12 @@ class GameScene extends Phaser.Scene
 			frameRate: 16,
 			repeat: -1,
 		});
+		
 		player.play('playerIdleAnim');
 		
 		// Phaser supports multiple cameras, but you can access the default camera like this:
 		
 		camera = this.cameras.main;
-
-		// Set up the arrows to control the camera
-		
 		cursors = this.input.keyboard.createCursorKeys();
 		controls = new Phaser.Cameras.Controls.FixedKeyControl({
 			camera: camera,
@@ -93,21 +98,21 @@ class GameScene extends Phaser.Scene
 		player.body.setVelocity(0);
 		
 		// Horizontal movement
+		
 		if (cursors.left.isDown) {
-		  player.body.setVelocityX(-100);
+		  player.body.setVelocityX(-config.speed.x);
 		} else if (cursors.right.isDown) {
-		  player.body.setVelocityX(100);
+		  player.body.setVelocityX(config.speed.x);
 		}
 		
 		// Vertical movement
+		
 		if (cursors.up.isDown) {
-		  player.body.setVelocityY(-100);
-		} else if (cursors.down.isDown) {
-		  player.body.setVelocityY(100);
+		  player.body.setVelocityY(-config.speed.y);
 		}
 		
 		// Normalize and scale the velocity so that player can't move faster along a diagonal
-		player.body.velocity.normalize().scale(config.speed);
+		// player.body.velocity.normalize().scale(config.speed);
 	}
 }
 
