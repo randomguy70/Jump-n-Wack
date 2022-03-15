@@ -1,6 +1,6 @@
 import config from "../main.js";
 
-let gravity = 200;
+let gravity = 1000;
 
 let player;
 let cursors;
@@ -100,20 +100,24 @@ class GameScene extends Phaser.Scene
 	{
 		controls.update(delta);
 		
-		player.body.setVelocity(0);
+		player.body.setVelocityX(0);
 		
 		// Horizontal movement
 		
-		if (cursors.left.isDown) {
+		if (cursors.left.isDown)
+		{
 		  player.body.setVelocityX(-config.speed.x);
-		} else if (cursors.right.isDown) {
+		}
+		else if (cursors.right.isDown)
+		{
 		  player.body.setVelocityX(config.speed.x);
 		}
 		
 		// Vertical movement
 		
-		if (cursors.up.isDown) {
-		  player.body.setVelocityY(-config.speed.y);
+		if (cursors.up.isDown && player.body.onFloor())
+		{
+   		player.setVelocityY(-config.speed.y);
 		}
 		
 		// Normalize and scale the velocity so that player can't move faster along a diagonal
