@@ -57,6 +57,16 @@ class GameScene extends Phaser.Scene
 		worldLayer.setCollisionByProperty({ collides: true });
 		this.physics.add.collider(player, worldLayer);
 		
+		// animations
+		
+		const playerIdle = this.anims.create({
+			key: 'playerIdleAnim',
+			frames: this.anims.generateFrameNumbers('playerIdle'),
+			frameRate: 16,
+			repeat: -1,
+		});
+		player.play('playerIdleAnim');
+		
 		// Phaser supports multiple cameras, but you can access the default camera like this:
 		
 		camera = this.cameras.main;

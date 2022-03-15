@@ -6,6 +6,7 @@ const config = {
 	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
+	pixelArt: true,
 	backgroundColor: '#87ceeb',
 	
 	scale: {
@@ -16,7 +17,7 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 5, x: 0 },
+			gravity: { y: 0, x: 0 },
 			debug: false
 		}
 	},
@@ -28,7 +29,7 @@ const config = {
 	level: 0,
 	lives: 1,
 	score: 0,
-	speed: 25,
+	speed: 40,
 };
 
 const game = new Phaser.Game(config);
