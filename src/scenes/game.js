@@ -56,12 +56,11 @@ class GameScene extends Phaser.Scene
 		
 		// collisions
 		
-		// worldLayer.setCollisionBetween(0, 150);
 		worldLayer.setCollisionByProperty({ Collides: true });
 		this.physics.add.collider(player, worldLayer);
 		
 		// physics (other)
-		
+		player.body.setCollideWorldBounds(true);
 		player.body.setGravityY(gravity);
 		
 		// animations
@@ -71,6 +70,12 @@ class GameScene extends Phaser.Scene
 			frames: this.anims.generateFrameNumbers('playerIdle'),
 			frameRate: 16,
 			repeat: -1,
+		});
+		const playerRun = this.anims.create({
+			key: 'playerRunAnim',
+			frames: this.anims.generateFrameNumbers('playerRun'),
+			frameRate: 16,
+			repeat: 1
 		});
 		
 		player.play('playerIdleAnim');
