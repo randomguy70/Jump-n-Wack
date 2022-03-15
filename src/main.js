@@ -28,6 +28,7 @@ const config = {
 	level: 0,
 	lives: 1,
 	score: 0,
+	speed: 25,
 };
 
 const game = new Phaser.Game(config);
