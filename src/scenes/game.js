@@ -26,10 +26,17 @@ class GameScene extends Phaser.Scene
 		
 		const map = this.make.tilemap({ key: "map" });
 		
-		const tileset = map.addTilesetImage("tileset", "tiles");
+		const tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
-		// Parameters: layer name (or index) from Tiled, tileset, x, y
+		// const playerLayer = map.createLayer("Player", tileset, 0, 0);
+		// const belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		const worldLayer = map.createLayer("World", tileset, 0, 0);
+		// const AbovePlayerLayer = map.createLayer("Above Player", tileset, 0, 0);
+		
+		// collisions
+		
+		// worldLayer.setCollisionByProperty({ collides: true });
+		
 		
 		// var cursors = this.input.keyboard.createCursorKeys();
 		

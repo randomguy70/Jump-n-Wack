@@ -15,7 +15,7 @@ body {
 #game-container {
 	align-self: center;
 	display: block;
-	margin: auto;
+	margin: auto;	
 }
 
 canvas {
