@@ -87,7 +87,7 @@ class GameScene extends Phaser.Scene
 			{
 				key: 'playerJumpAnim',
 				frames: this.anims.generateFrameNumbers('playerJump'),
-				frameRate: 10,
+				frameRate: 5,
 				repeat: -1,
 			}
 		)
@@ -96,7 +96,8 @@ class GameScene extends Phaser.Scene
 		
 		camera = this.cameras.main;
 		cursors = this.input.keyboard.createCursorKeys();
-		controls = new Phaser.Cameras.Controls.FixedKeyControl({
+		controls = new Phaser.Cameras.Controls.FixedKeyControl(
+			{
 			camera: camera,
 			left: cursors.left,
 			right: cursors.right,
@@ -122,6 +123,10 @@ class GameScene extends Phaser.Scene
 				player.flipX = true;
 				game.playerConfig.facingRight = false;
 			}
+			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != 'playerRunAnim')
+			{
+				player.anims.play('playerRunAnim');
+			}
 			player.body.setVelocityX(-config.playerSpeed.x);
 		}
 		else if (cursors.right.isDown)
@@ -131,6 +136,10 @@ class GameScene extends Phaser.Scene
 				// false because it isn't being flipped
 				player.flipX = false;
 				game.playerConfig.facingRight = true;
+			}
+			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != 'playerRunAnim')
+			{
+				player.anims.play('playerRunAnim');
 			}
 			player.body.setVelocityX(config.playerSpeed.x);
 		}
@@ -143,7 +152,7 @@ class GameScene extends Phaser.Scene
 			player.anims.play('playerJumpAnim');
 		}
 		
-		if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
+		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
 		{
 			player.anims.play('playerIdleAnim');
 		}
