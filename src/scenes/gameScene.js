@@ -143,13 +143,10 @@ class GameScene extends Phaser.Scene
 			player.anims.play('playerJumpAnim');
 		}
 		
-		if(!cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
+		if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
 		{
 			player.anims.play('playerIdleAnim');
 		}
-		
-		// Normalize and scale the velocity so that player can't move faster along a diagonal
-		// player.body.velocity.normalize().scale(config.playerSpeed);
 	}
 }
 
