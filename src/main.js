@@ -17,7 +17,7 @@ const config = {
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: { y: 10, x: 0 },
+			gravity: { y: 50, x: 0 },
 			debug: false
 		}
 	},
@@ -30,12 +30,12 @@ const config = {
 	lives: 1,
 	score: 0,
 	playerSpeed: {
-		x: 80,
-		y: 400
+		x: 100,
+		y: 430
 	},
 	enemySpeed: {
 		x: 80,
-		y: 400
+		y: 300
 	}
 };
 
