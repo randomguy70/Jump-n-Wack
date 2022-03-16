@@ -81,19 +81,19 @@ class GameScene extends Phaser.Scene
 			key: 'playerRunAnim',
 			frames: this.anims.generateFrameNumbers('playerRun'),
 			frameRate: 20,
-			repeat: 1
+			repeat: -1
 		});
 		const playerJump = this.anims.create(
 			{
 				key: 'playerJumpAnim',
 				frames: this.anims.generateFrameNumbers('playerJump'),
-				frameRate: 3,
+				frameRate: 10,
 				repeat: -1,
 			}
 		)
 		
-		player.play('playerIdleAnim');
-				
+		player.anims.play('playerIdleAnim');
+		
 		camera = this.cameras.main;
 		cursors = this.input.keyboard.createCursorKeys();
 		controls = new Phaser.Cameras.Controls.FixedKeyControl({
@@ -141,10 +141,9 @@ class GameScene extends Phaser.Scene
 		{
    		player.setVelocityY(-config.playerSpeed.y);
 			player.anims.play('playerJumpAnim');
-			// player.flipY;
 		}
 		
-		if(!cursors.up.isDown && !cursors.down.isDown && player.body.onFloor())
+		if(!cursors.up.isDown && !cursors.down.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
 		{
 			player.anims.play('playerIdleAnim');
 		}
