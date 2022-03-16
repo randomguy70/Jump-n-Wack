@@ -1,12 +1,12 @@
 import config from "../main.js";
+import game from "../game.js";
 
-let gravity = 1000;
-
-let player;
+let camera;
 let cursors;
 let controls;
-let camera;
 
+let player;
+let map;
 let tileset;
 let belowPlayerLayer;
 let worldLayer;
@@ -27,21 +27,25 @@ class GameScene extends Phaser.Scene
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
 		this.load.tilemapTiledJSON("map", "../src/assets/tilemaps/map1.json");
 		
-		this.load.spritesheet('playerIdle', '../src/assets/Main Characters/Ninja Frog/Idle (32x32).png', 
+		this.load.spritesheet('playerIdle',
+		'../src/assets/Main Characters/Ninja Frog/Idle (32x32).png', 
 		{ frameWidth: 32, frameHeight: 32}
 		);
    	this.load.spritesheet('playerRun', 
 			'../src/assets/Main Characters/Ninja Frog/Run (32x32).png',
       	{ frameWidth: 32, frameHeight: 32 }
    	);
-		
+		this.load.spritesheet('playerJump',
+		'../src/assets/Main Characters/Ninja Frog/Jump (32x32).png',
+		{ frameWidth: 32, frameHeight: 32}
+		);
 	}
 	
 	create ()
 	{
 		console.log('creating...');
 		
-		const map = this.make.tilemap({ key: "map" });
+		map = this.make.tilemap({ key: "map" });
 		
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
@@ -61,27 +65,35 @@ class GameScene extends Phaser.Scene
 		
 		// physics (other)
 		player.body.setCollideWorldBounds(true);
-		player.body.setGravityY(gravity);
+		player.body.setGravityY(game.gravity);
 		
 		// animations
 		
-		const playerIdle = this.anims.create({
+		const playerIdle = this.anims.create(
+			{
 			key: 'playerIdleAnim',
 			frames: this.anims.generateFrameNumbers('playerIdle'),
 			frameRate: 20,
 			repeat: -1,
 		});
-		const playerRun = this.anims.create({
+		const playerRun = this.anims.create(
+			{
 			key: 'playerRunAnim',
 			frames: this.anims.generateFrameNumbers('playerRun'),
 			frameRate: 20,
 			repeat: 1
 		});
+		const playerJump = this.anims.create(
+			{
+				key: 'playerJumpAnim',
+				frames: this.anims.generateFrameNumbers('playerJump'),
+				frameRate: 3,
+				repeat: -1,
+			}
+		)
 		
 		player.play('playerIdleAnim');
-		
-		// Phaser supports multiple cameras, but you can access the default camera like this:
-		
+				
 		camera = this.cameras.main;
 		cursors = this.input.keyboard.createCursorKeys();
 		controls = new Phaser.Cameras.Controls.FixedKeyControl({
@@ -90,7 +102,6 @@ class GameScene extends Phaser.Scene
 			right: cursors.right,
 			up: cursors.up,
 			down: cursors.down,
-			playerSpeed: 0.5,
 		});
 		
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -106,11 +117,22 @@ class GameScene extends Phaser.Scene
 		
 		if (cursors.left.isDown)
 		{
-		  player.body.setVelocityX(-config.playerSpeed.x);
+			if(game.playerConfig.facingRight === true)
+			{
+				player.flipX = true;
+				game.playerConfig.facingRight = false;
+			}
+			player.body.setVelocityX(-config.playerSpeed.x);
 		}
 		else if (cursors.right.isDown)
 		{
-		  player.body.setVelocityX(config.playerSpeed.x);
+			if(game.playerConfig.facingRight === false)
+			{
+				// false because it isn't being flipped
+				player.flipX = false;
+				game.playerConfig.facingRight = true;
+			}
+			player.body.setVelocityX(config.playerSpeed.x);
 		}
 		
 		// Vertical movement
@@ -118,6 +140,13 @@ class GameScene extends Phaser.Scene
 		if (cursors.up.isDown && player.body.onFloor())
 		{
    		player.setVelocityY(-config.playerSpeed.y);
+			player.anims.play('playerJumpAnim');
+			// player.flipY;
+		}
+		
+		if(!cursors.up.isDown && !cursors.down.isDown && player.body.onFloor())
+		{
+			player.anims.play('playerIdleAnim');
 		}
 		
 		// Normalize and scale the velocity so that player can't move faster along a diagonal
