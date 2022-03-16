@@ -2,10 +2,9 @@ const game =
 {
 	level: 0,
 	score: 0,
+	lives: 1,
 	
 	playerConfig: {
-		lives: 1,
-		
 		speedX: 100,
 		speedY: 430,
 		

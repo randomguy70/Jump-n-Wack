@@ -39,6 +39,10 @@ class GameScene extends Phaser.Scene
 		'../src/assets/Main Characters/Ninja Frog/Jump (32x32).png',
 		{ frameWidth: 32, frameHeight: 32}
 		);
+		this.load.spritesheet('playerHit',
+		'../src/assets/Main Characters/Ninja Frog/Hit (32x32).png',
+		{ frameWidth: 32, frameHeight: 32}
+		);
 	}
 	
 	create ()
@@ -51,7 +55,6 @@ class GameScene extends Phaser.Scene
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
-		abovePlayerLayer = map.createLayer("Above Player", tileset, 0, 0);
 		
 		// initialise objects
 		
@@ -62,6 +65,9 @@ class GameScene extends Phaser.Scene
 		
 		worldLayer.setCollisionByProperty({ Collides: true });
 		this.physics.add.collider(player, worldLayer);
+		
+		// obstaclesLayer.setCollisionByProperty({Kills: true});
+		// this.physics.add.collider(player, obstaclesLayer);
 		
 		// physics (other)
 		player.body.setCollideWorldBounds(true);
