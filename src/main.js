@@ -29,10 +29,14 @@ const config = {
 	level: 0,
 	lives: 1,
 	score: 0,
-	speed: {
+	playerSpeed: {
 		x: 80,
 		y: 400
 	},
+	enemySpeed: {
+		x: 80,
+		y: 400
+	}
 };
 
 const game = new Phaser.Game(config);

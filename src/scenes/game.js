@@ -6,7 +6,7 @@ let player;
 let cursors;
 let controls;
 let camera;
- 
+
 let tileset;
 let belowPlayerLayer;
 let worldLayer;
@@ -68,13 +68,13 @@ class GameScene extends Phaser.Scene
 		const playerIdle = this.anims.create({
 			key: 'playerIdleAnim',
 			frames: this.anims.generateFrameNumbers('playerIdle'),
-			frameRate: 16,
+			frameRate: 20,
 			repeat: -1,
 		});
 		const playerRun = this.anims.create({
 			key: 'playerRunAnim',
 			frames: this.anims.generateFrameNumbers('playerRun'),
-			frameRate: 16,
+			frameRate: 20,
 			repeat: 1
 		});
 		
@@ -90,7 +90,7 @@ class GameScene extends Phaser.Scene
 			right: cursors.right,
 			up: cursors.up,
 			down: cursors.down,
-			speed: 0.5,
+			playerSpeed: 0.5,
 		});
 		
 		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -106,22 +106,22 @@ class GameScene extends Phaser.Scene
 		
 		if (cursors.left.isDown)
 		{
-		  player.body.setVelocityX(-config.speed.x);
+		  player.body.setVelocityX(-config.playerSpeed.x);
 		}
 		else if (cursors.right.isDown)
 		{
-		  player.body.setVelocityX(config.speed.x);
+		  player.body.setVelocityX(config.playerSpeed.x);
 		}
 		
 		// Vertical movement
 		
 		if (cursors.up.isDown && player.body.onFloor())
 		{
-   		player.setVelocityY(-config.speed.y);
+   		player.setVelocityY(-config.playerSpeed.y);
 		}
 		
 		// Normalize and scale the velocity so that player can't move faster along a diagonal
-		// player.body.velocity.normalize().scale(config.speed);
+		// player.body.velocity.normalize().scale(config.playerSpeed);
 	}
 }
 
