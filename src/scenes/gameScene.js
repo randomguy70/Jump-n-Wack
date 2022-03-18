@@ -1,22 +1,27 @@
 import config from "../main.js";
 import game from "../game.js";
+// player data
+import {numPlayerSkins, playerSkins, pathsToPlayers, playerSpriteSheetKeys, playerSpriteSheetNames, playerAnimKeys, playerConfig} from '../player.js';
+// player functions
+import {loadPlayerSpriteSheets, createPlayerAnims} from '../player.js';
+// animations
+import {playerIdle, playerRun, playerJump, playerFall} from '../player.js';
 
-let camera;
-let cursors;
-let controls;
+export var camera;   // phaser object
+export var cursors;  // phaser object
+export var controls; // phaser object
 
-let player;
-let map;
-let tileset;
-let belowPlayerLayer;
-let worldLayer;
-let abovePlayerLayer;
+export var player;           // phaser object
+export var map;              // phaser object
+export var tileset;          // phaser object
+export var belowPlayerLayer; // phaser object
+export var worldLayer;       // phaser object
 
 class GameScene extends Phaser.Scene
 {
 	constructor ()
 	{
-		console.log('constructed gameScene');
+		console.log('Constructed gameScene');
 		super({key: 'gameScene'});
 	}
 	
@@ -24,29 +29,12 @@ class GameScene extends Phaser.Scene
 	{
 		console.log('preloading...');
 		
+		console.log('loading tilemap');
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
 		this.load.tilemapTiledJSON("map", "../src/assets/tilemaps/map1.json");
 		
-		this.load.spritesheet('playerIdle',
-		'../src/assets/Main Characters/Ninja Frog/Idle (32x32).png', 
-		{ frameWidth: 32, frameHeight: 32}
-		);
-   	this.load.spritesheet('playerRun', 
-			'../src/assets/Main Characters/Ninja Frog/Run (32x32).png',
-      	{ frameWidth: 32, frameHeight: 32 }
-   	);
-		this.load.spritesheet('playerJump',
-		'../src/assets/Main Characters/Ninja Frog/Jump (32x32).png',
-		{ frameWidth: 32, frameHeight: 32}
-		);
-		this.load.spritesheet('playerFall',
-		'../src/assets/Main Characters/Ninja Frog/Fall (32x32).png',
-		{ frameWidth: 32, frameHeight: 32}
-		);
-		this.load.spritesheet('playerHit',
-		'../src/assets/Main Characters/Ninja Frog/Hit (32x32).png',
-		{ frameWidth: 32, frameHeight: 32}
-		);
+		console.log('loading player sprite sheets');
+		loadPlayerSpriteSheets(this);
 	}
 	
 	create ()
@@ -78,38 +66,41 @@ class GameScene extends Phaser.Scene
 		player.body.setGravityY(game.gravity);
 		
 		// animations
-		
-		const playerIdle = this.anims.create(
+		/*
+		playerIdle = this.anims.create(
 			{
 			key: 'playerIdleAnim',
 			frames: this.anims.generateFrameNumbers('playerIdle'),
 			frameRate: 20,
 			repeat: -1,
 		});
-		const playerRun = this.anims.create(
+		playerRun = this.anims.create(
 			{
 			key: 'playerRunAnim',
 			frames: this.anims.generateFrameNumbers('playerRun'),
 			frameRate: 20,
 			repeat: -1
 		});
-		const playerJump = this.anims.create(
+		playerJump = this.anims.create(
 			{
 				key: 'playerJumpAnim',
 				frames: this.anims.generateFrameNumbers('playerJump'),
 				frameRate: 1,
 				repeat: -1,
 		});
-		const playerFall = this.anims.create(
+		playerFall = this.anims.create(
 			{
 				key: 'playerFallAnim',
 				frames: this.anims.generateFrameNumbers('playerFall'),
 				frameRate: 1,
 				repeat: -1,
 			}
-		)
+		);
+		*/
 		
-		player.anims.play('playerIdleAnim');
+		createPlayerAnims(this);
+		
+		player.anims.play(playerAnimKeys.idle);
 		
 		camera = this.cameras.main;
 		cursors = this.input.keyboard.createCursorKeys();
@@ -135,28 +126,28 @@ class GameScene extends Phaser.Scene
 		
 		if (cursors.left.isDown)
 		{
-			if(game.playerConfig.facingRight === true)
+			if(playerConfig.facingRight === true)
 			{
 				player.flipX = true;
-				game.playerConfig.facingRight = false;
+				playerConfig.facingRight = false;
 			}
-			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != 'playerRunAnim')
+			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
 			{
-				player.anims.play('playerRunAnim');
+				player.anims.play(playerAnimKeys.run);
 			}
 			player.body.setVelocityX(-config.playerSpeed.x);
 		}
 		else if (cursors.right.isDown)
 		{
-			if(game.playerConfig.facingRight === false)
+			if(playerConfig.facingRight === false)
 			{
 				// false because it isn't being flipped
 				player.flipX = false;
-				game.playerConfig.facingRight = true;
+				playerConfig.facingRight = true;
 			}
-			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != 'playerRunAnim')
+			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
 			{
-				player.anims.play('playerRunAnim');
+				player.anims.play(playerAnimKeys.run);
 			}
 			player.body.setVelocityX(config.playerSpeed.x);
 		}
@@ -166,16 +157,16 @@ class GameScene extends Phaser.Scene
 		if (cursors.up.isDown && player.body.onFloor())
 		{
    		player.setVelocityY(-config.playerSpeed.y);
-			player.anims.play('playerJumpAnim');
+			player.anims.play(playerAnimKeys.jump);
 		}
-		else if (player.body.velocity.y > 0 && player.anims.currentAnim.key != 'playerFallAnim' && !player.body.onFloor())
+		else if (player.body.velocity.y > 0 && player.anims.currentAnim.key != playerAnimKeys.fall && !player.body.onFloor())
 		{
-			player.anims.play('playerFallAnim');
+			player.anims.play(playerAnimKeys.fall);
 		}
 		
-		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
+		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.idle && player.body.onFloor())
 		{
-			player.anims.play('playerIdleAnim');
+			player.anims.play(playerAnimKeys.idle);
 		}
 	}
 }
