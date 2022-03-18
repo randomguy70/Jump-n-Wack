@@ -39,6 +39,10 @@ class GameScene extends Phaser.Scene
 		'../src/assets/Main Characters/Ninja Frog/Jump (32x32).png',
 		{ frameWidth: 32, frameHeight: 32}
 		);
+		this.load.spritesheet('playerFall',
+		'../src/assets/Main Characters/Ninja Frog/Fall (32x32).png',
+		{ frameWidth: 32, frameHeight: 32}
+		);
 		this.load.spritesheet('playerHit',
 		'../src/assets/Main Characters/Ninja Frog/Hit (32x32).png',
 		{ frameWidth: 32, frameHeight: 32}
@@ -93,7 +97,14 @@ class GameScene extends Phaser.Scene
 			{
 				key: 'playerJumpAnim',
 				frames: this.anims.generateFrameNumbers('playerJump'),
-				frameRate: 5,
+				frameRate: 1,
+				repeat: -1,
+		});
+		const playerFall = this.anims.create(
+			{
+				key: 'playerFallAnim',
+				frames: this.anims.generateFrameNumbers('playerFall'),
+				frameRate: 1,
 				repeat: -1,
 			}
 		)
@@ -156,6 +167,10 @@ class GameScene extends Phaser.Scene
 		{
    		player.setVelocityY(-config.playerSpeed.y);
 			player.anims.play('playerJumpAnim');
+		}
+		else if (player.body.velocity.y > 0 && player.anims.currentAnim.key != 'playerFallAnim' && !player.body.onFloor())
+		{
+			player.anims.play('playerFallAnim');
 		}
 		
 		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != 'playerIdleAnim' && player.body.onFloor())
