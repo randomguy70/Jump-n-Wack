@@ -62,45 +62,16 @@ class GameScene extends Phaser.Scene
 		// this.physics.add.collider(player, obstaclesLayer);
 		
 		// physics (other)
+		
 		player.body.setCollideWorldBounds(true);
 		player.body.setGravityY(game.gravity);
 		
 		// animations
-		/*
-		playerIdle = this.anims.create(
-			{
-			key: 'playerIdleAnim',
-			frames: this.anims.generateFrameNumbers('playerIdle'),
-			frameRate: 20,
-			repeat: -1,
-		});
-		playerRun = this.anims.create(
-			{
-			key: 'playerRunAnim',
-			frames: this.anims.generateFrameNumbers('playerRun'),
-			frameRate: 20,
-			repeat: -1
-		});
-		playerJump = this.anims.create(
-			{
-				key: 'playerJumpAnim',
-				frames: this.anims.generateFrameNumbers('playerJump'),
-				frameRate: 1,
-				repeat: -1,
-		});
-		playerFall = this.anims.create(
-			{
-				key: 'playerFallAnim',
-				frames: this.anims.generateFrameNumbers('playerFall'),
-				frameRate: 1,
-				repeat: -1,
-			}
-		);
-		*/
 		
 		createPlayerAnims(this);
-		
 		player.anims.play(playerAnimKeys.idle);
+		
+		// system
 		
 		camera = this.cameras.main;
 		cursors = this.input.keyboard.createCursorKeys();

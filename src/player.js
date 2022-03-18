@@ -1,3 +1,4 @@
+
 export const numPlayerSkins = 4;
 export const playerSkins = 
 [
@@ -72,7 +73,7 @@ export function loadPlayerSpriteSheets(scene)
 		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
 	);
    scene.load.spritesheet(playerSpriteSheetKeys.run, 
-		playerConfig.path + playerSpriteSheetNames.idle,
+		playerConfig.path + playerSpriteSheetNames.run,
    	{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight }
    );
 	scene.load.spritesheet(playerSpriteSheetKeys.jump,
@@ -93,29 +94,29 @@ export function createPlayerAnims(scene)
 {
 	playerIdle = scene.anims.create(
 		{
-		key: 'playerIdleAnim',
-		frames: scene.anims.generateFrameNumbers('playerIdle'),
+		key: playerAnimKeys.idle,
+		frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.idle),
 		frameRate: 20,
 		repeat: -1,
 	});
 	playerRun = scene.anims.create(
 		{
-		key: 'playerRunAnim',
-		frames: scene.anims.generateFrameNumbers('playerRun'),
+		key: playerAnimKeys.run,
+		frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.run),
 		frameRate: 20,
 		repeat: -1
 	});
 	playerJump = scene.anims.create(
 		{
-			key: 'playerJumpAnim',
-			frames: scene.anims.generateFrameNumbers('playerJump'),
+			key: playerAnimKeys.jump,
+			frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.jump),
 			frameRate: 1,
 			repeat: -1,
 	});
 	playerFall = scene.anims.create(
 		{
-			key: 'playerFallAnim',
-			frames: scene.anims.generateFrameNumbers('playerFall'),
+			key: playerAnimKeys.fall,
+			frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.fall),
 			frameRate: 1,
 			repeat: -1,
 		}
