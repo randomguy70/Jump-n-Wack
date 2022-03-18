@@ -1,9 +1,8 @@
-import config from "../main.js";
 import game from "../game.js";
 // player data
 import {numPlayerSkins, playerSkins, pathsToPlayers, playerSpriteSheetKeys, playerSpriteSheetNames, playerAnimKeys, playerConfig} from '../player.js';
 // player functions
-import {loadPlayerSpriteSheets, createPlayerAnims} from '../player.js';
+import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from '../player.js';
 // animations
 import {playerIdle, playerRun, playerJump, playerFall} from '../player.js';
 
@@ -90,55 +89,7 @@ class GameScene extends Phaser.Scene
 	update (time, delta)
 	{
 		controls.update(delta);
-		
-		player.body.setVelocityX(0);
-		
-		// Horizontal movement
-		
-		if (cursors.left.isDown)
-		{
-			if(playerConfig.facingRight === true)
-			{
-				player.flipX = true;
-				playerConfig.facingRight = false;
-			}
-			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
-			{
-				player.anims.play(playerAnimKeys.run);
-			}
-			player.body.setVelocityX(-config.playerSpeed.x);
-		}
-		else if (cursors.right.isDown)
-		{
-			if(playerConfig.facingRight === false)
-			{
-				// false because it isn't being flipped
-				player.flipX = false;
-				playerConfig.facingRight = true;
-			}
-			if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
-			{
-				player.anims.play(playerAnimKeys.run);
-			}
-			player.body.setVelocityX(config.playerSpeed.x);
-		}
-		
-		// Vertical movement
-		
-		if (cursors.up.isDown && player.body.onFloor())
-		{
-   		player.setVelocityY(-config.playerSpeed.y);
-			player.anims.play(playerAnimKeys.jump);
-		}
-		else if (player.body.velocity.y > 0 && player.anims.currentAnim.key != playerAnimKeys.fall && !player.body.onFloor())
-		{
-			player.anims.play(playerAnimKeys.fall);
-		}
-		
-		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.idle && player.body.onFloor())
-		{
-			player.anims.play(playerAnimKeys.idle);
-		}
+		handlePlayerKeypresses(cursors, player);
 	}
 }
 
