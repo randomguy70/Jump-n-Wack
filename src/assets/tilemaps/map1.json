@@ -92,7 +92,7 @@
         {
          "draworder":"topdown",
          "id":7,
-         "name":"Deadly Obstacles",
+         "name":"Spikes",
          "objects":[
                 {
                  "gid":271,

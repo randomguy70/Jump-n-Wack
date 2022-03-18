@@ -4,14 +4,8 @@ const game =
 	score: 0,
 	lives: 1,
 	
-	playerConfig: {
-		speedX: 100,
-		speedY: 430,
-		
-		facingRight: true,
-	},
-	
-	enemySpeed: {
+	enemySpeed:
+	{
 		x: 80,
 		y: 300
 	},
