@@ -5,11 +5,15 @@ body {
 }
 
 .page-container {
-	margin: 50px;
-	padding: 20%;
+	display: block;
 	justify-items: center;
 	align-items: center;
 	text-align: center;
+}
+
+#title {
+	text-align: center;
+	display: block;
 }
 
 #game-container {

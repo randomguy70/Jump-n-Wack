@@ -29,10 +29,7 @@ const config = {
 	level: 0,
 	lives: 1,
 	score: 0,
-	playerSpeed: {
-		x: 100,
-		y: 430
-	},
+	
 	enemySpeed: {
 		x: 80,
 		y: 300
