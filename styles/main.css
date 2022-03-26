@@ -2,6 +2,8 @@ body {
 	justify-items: center;
 	align-items: center;
 	text-align: center;
+	
+	background-color: rgb( 217, 221, 237);
 }
 
 .page-container {
@@ -11,9 +13,15 @@ body {
 	text-align: center;
 }
 
-#title {
+.title {
+	/* display: block; */
 	text-align: center;
-	display: block;
+	text-transform: uppercase;
+	font: bold 55px/60px Arial, Helvetica, sans-serif;
+	color: #fff;
+	text-shadow: 1px 1px 2px rgba(182, 27, 242, 0.4), 1px -1px 2px rgba(182, 27, 242, 0.4), -1px 1px 2px rgba(182, 27, 242, 0.4), -1px -1px 2px rgba(182, 27, 242, 0.4), 0 0 20px rgba(0, 134, 255, 0.75);
+	
+	margin: 2%;
 }
 
 #game-container {
