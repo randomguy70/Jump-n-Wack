@@ -1,3 +1,4 @@
+// game properties object
 import game from "../game.js";
 // player data
 import {numPlayerSkins, playerSkins, pathsToPlayers, playerSpriteSheetKeys, playerSpriteSheetNames, playerAnimKeys, playerConfig} from '../player.js';
@@ -6,15 +7,21 @@ import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from 
 // animations
 import {playerIdle, playerRun, playerJump, playerFall} from '../player.js';
 
-export var camera;   // phaser object
-export var cursors;  // phaser object
-export var controls; // phaser object
+export var camera;           // phaser object
+export var cursors;          // phaser object
+export var controls;         // phaser object
 
 export var player;           // phaser object
+
 export var map;              // phaser object
 export var tileset;          // phaser object
-export var belowPlayerLayer; // phaser object
-export var worldLayer;       // phaser object
+
+export var belowPlayerLayer; // phaser map layer object
+export var worldLayer;       // phaser map layer object
+export var fruitLayer;       // phaser map layer object
+
+export var coins;            // static group
+
 
 class GameScene extends Phaser.Scene
 {
@@ -46,6 +53,7 @@ class GameScene extends Phaser.Scene
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
+		fruitLayer = map.getObjectLayer('Fruits')['objects'];
 		
 		// initialise objects
 		

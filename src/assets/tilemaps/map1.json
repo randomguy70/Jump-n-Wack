@@ -47,30 +47,6 @@
                  "width":0,
                  "x":64,
                  "y":64
-                }, 
-                {
-                 "height":0,
-                 "id":12,
-                 "name":"Trampoline1",
-                 "point":true,
-                 "rotation":0,
-                 "type":"Trampoline",
-                 "visible":true,
-                 "width":0,
-                 "x":256,
-                 "y":352
-                }, 
-                {
-                 "height":0,
-                 "id":14,
-                 "name":"Enemy1",
-                 "point":true,
-                 "rotation":0,
-                 "type":"AngryPig",
-                 "visible":true,
-                 "width":0,
-                 "x":48,
-                 "y":176
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -81,8 +57,44 @@
         {
          "draworder":"topdown",
          "id":5,
-         "name":"Coins",
-         "objects":[],
+         "name":"Fruits",
+         "objects":[
+                {
+                 "gid":273,
+                 "height":16,
+                 "id":21,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":128,
+                 "y":176
+                }, 
+                {
+                 "gid":273,
+                 "height":16,
+                 "id":22,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":176
+                }, 
+                {
+                 "gid":273,
+                 "height":16,
+                 "id":23,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":64,
+                 "y":176
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -125,7 +137,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":20,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.2",
