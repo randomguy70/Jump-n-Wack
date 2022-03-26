@@ -1,3 +1,5 @@
+import player from './scenes/gameScene.js';
+
 export const numPlayerSkins = 4;
 export const playerSkins = 
 [
@@ -34,6 +36,30 @@ export const playerSpriteSheetNames =
 	wallJump: 'Wall Jump (32x32).png'
 };
 
+export function loadPlayerSpriteSheets(scene)
+{
+	scene.load.spritesheet(playerSpriteSheetKeys.idle,
+		playerConfig.path + playerSpriteSheetNames.idle, 
+		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
+	);
+   scene.load.spritesheet(playerSpriteSheetKeys.run, 
+		playerConfig.path + playerSpriteSheetNames.run,
+   	{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight }
+   );
+	scene.load.spritesheet(playerSpriteSheetKeys.jump,
+		playerConfig.path + playerSpriteSheetNames.jump,
+		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
+	);
+	scene.load.spritesheet(playerSpriteSheetKeys.fall,
+		playerConfig.path + playerSpriteSheetNames.fall,
+		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
+	);
+	scene.load.spritesheet(playerSpriteSheetKeys.hit,
+		playerConfig.path + playerSpriteSheetNames.hit,
+		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
+	);
+};
+
 export let playerIdle;  // phaser anim
 export var playerRun;   // phaser anim
 export var playerJump;  // phaser anim
@@ -62,30 +88,6 @@ export const playerConfig =
 	
 	skin: 1,
 	path: pathsToPlayers[1],
-};
-
-export function loadPlayerSpriteSheets(scene)
-{
-	scene.load.spritesheet(playerSpriteSheetKeys.idle,
-		playerConfig.path + playerSpriteSheetNames.idle, 
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-   scene.load.spritesheet(playerSpriteSheetKeys.run, 
-		playerConfig.path + playerSpriteSheetNames.run,
-   	{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight }
-   );
-	scene.load.spritesheet(playerSpriteSheetKeys.jump,
-		playerConfig.path + playerSpriteSheetNames.jump,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-	scene.load.spritesheet(playerSpriteSheetKeys.fall,
-		playerConfig.path + playerSpriteSheetNames.fall,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-	scene.load.spritesheet(playerSpriteSheetKeys.hit,
-		playerConfig.path + playerSpriteSheetNames.hit,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
 };
 
 export function createPlayerAnims(scene)
