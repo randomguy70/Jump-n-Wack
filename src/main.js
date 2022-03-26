@@ -47,4 +47,16 @@ game.scale.refresh();
 game.scene.add('gameScene', gameScene);
 game.scene.start('gameScene');
 
+export const gameData = 
+{
+	level: 0,
+	score: 0,
+	lives: 1,
+	skin: 1,
+	
+	fruitScoreValue: 5,
+	
+	gravity: 1000,
+};
+
 export default config;

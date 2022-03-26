@@ -23,7 +23,6 @@ export const playerSpriteSheetKeys =
 	wallJump: 'playerWallJump'
 };
 
-
 export const playerSpriteSheetNames = 
 {
 	doubleJump: 'Double Jump (32x32).png',

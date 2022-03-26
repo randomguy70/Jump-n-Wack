@@ -1,31 +1,25 @@
-// game properties object
-import game from "../game.js";
-import config from '../main.js';
-// player data
-import {numPlayerSkins, playerSkins, pathsToPlayers, playerSpriteSheetKeys, playerSpriteSheetNames, playerAnimKeys, playerConfig} from '../player.js';
-// player functions
+import {config, gameData} from '../main.js';
+import {playerAnimKeys} from '../player.js';
 import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from '../player.js';
-// animations
-import {playerIdle, playerRun, playerJump, playerFall} from '../player.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
 export var controls;         // phaser object
 
-export var player;           // phaser object
+export var player;           // phaser sprite
 
-export var map;              // phaser object
-export var tileset;          // phaser object
+export var map;              // tilemap
+export var tileset;          // tileset image
 
 export var mapOffsetX;       // number
 export var mapOffsetY;       // number
 
-export var belowPlayerLayer; // phaser map layer object
-export var worldLayer;       // phaser map layer object
-export var fruitLayer;       // phaser map layer object
+export var belowPlayerLayer; // phaser map layer
+export var worldLayer;       // phaser map layer
+export var fruitLayer;       // phaser map layer
 
 export var coins;            // layer -> static group
-
+export var apples = [];      // layer -> static group
 
 class GameScene extends Phaser.Scene
 {
@@ -43,7 +37,8 @@ class GameScene extends Phaser.Scene
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
 		this.load.tilemapTiledJSON("map", "../src/assets/tilemaps/map1.json");
 		
-		console.log('loading player sprite sheets');
+		console.log('sprite sheets');
+		
 		loadPlayerSpriteSheets(this);
 	}
 	
@@ -81,7 +76,7 @@ class GameScene extends Phaser.Scene
 		// physics (other)
 		
 		player.body.setCollideWorldBounds(true);
-		player.body.setGravityY(game.gravity);
+		player.body.setGravityY(gameData.gravity);
 		
 		// animations
 		
