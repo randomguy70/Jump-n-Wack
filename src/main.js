@@ -2,12 +2,13 @@ import GameScene from './scenes/gameScene.js'
 
 var gameScene = new GameScene()
 
-const config = {
+export const config = {
 	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
 	pixelArt: true,
-	backgroundColor: '#87ceeb',
+	// backgroundColor: '#87ceeb', // sky blue
+	backgroundColor: '#211f30',    // dark brown
 	
 	scale: {
 		parent: 'game-container',

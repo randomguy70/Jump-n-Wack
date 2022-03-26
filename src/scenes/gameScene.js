@@ -1,5 +1,6 @@
 // game properties object
 import game from "../game.js";
+import config from '../main.js';
 // player data
 import {numPlayerSkins, playerSkins, pathsToPlayers, playerSpriteSheetKeys, playerSpriteSheetNames, playerAnimKeys, playerConfig} from '../player.js';
 // player functions
@@ -16,11 +17,14 @@ export var player;           // phaser object
 export var map;              // phaser object
 export var tileset;          // phaser object
 
+export var mapOffsetX;       // number
+export var mapOffsetY;       // number
+
 export var belowPlayerLayer; // phaser map layer object
 export var worldLayer;       // phaser map layer object
 export var fruitLayer;       // phaser map layer object
 
-export var coins;            // static group
+export var coins;            // layer -> static group
 
 
 class GameScene extends Phaser.Scene
@@ -46,6 +50,8 @@ class GameScene extends Phaser.Scene
 	create ()
 	{
 		console.log('creating...');
+		
+		// tilemap stuff
 		
 		map = this.make.tilemap({ key: "map" });
 		
@@ -78,26 +84,42 @@ class GameScene extends Phaser.Scene
 		createPlayerAnims(this);
 		player.anims.play(playerAnimKeys.idle);
 		
-		// system
-		
-		camera = this.cameras.main;
-		cursors = this.input.keyboard.createCursorKeys();
-		controls = new Phaser.Cameras.Controls.FixedKeyControl(
-			{
-			camera: camera,
-			left: cursors.left,
-			right: cursors.right,
-			up: cursors.up,
-			down: cursors.down,
-		});
-		
-		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+		initialiseSystem(this, camera, cursors, controls);		
 	}
 	
 	update (time, delta)
 	{
 		controls.update(delta);
 		handlePlayerKeypresses(cursors, player);
+	}
+}
+
+function initialiseSystem(scene)
+{
+	camera = scene.cameras.main;
+	cursors = scene.input.keyboard.createCursorKeys();
+	controls = new Phaser.Cameras.Controls.FixedKeyControl(
+		{
+		camera: camera,
+		left: cursors.left,
+		right: cursors.right,
+		up: cursors.up,
+		down: cursors.down,
+		});
+	
+	// if scrolling is necessary...
+	if(map.widthInPixels > config.width || map.heightInPixels > config.height)
+	{
+		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+		camera.startFollow(player);
+	}
+	
+	// if no scrolling, center camera on map
+	else
+	{
+		var cameraX = -(config.width / 2 - map.widthInPixels / 2);
+		var cameraY = -(config.height / 2 - map.heightInPixels / 2);
+		camera.setBounds(cameraX, cameraY, config.width, config.height);
 	}
 }
 
