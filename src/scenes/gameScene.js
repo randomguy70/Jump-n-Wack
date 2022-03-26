@@ -57,6 +57,10 @@ class GameScene extends Phaser.Scene
 		
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
+		// add the background color to the map (different from canvas bk)
+		console.log('map width' + map.widthInPixels + 'map height' + map.heightInPixels);
+		this.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
+		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
 		fruitLayer = map.getObjectLayer('Fruits')['objects'];
@@ -84,7 +88,7 @@ class GameScene extends Phaser.Scene
 		createPlayerAnims(this);
 		player.anims.play(playerAnimKeys.idle);
 		
-		initialiseSystem(this, camera, cursors, controls);		
+		initialiseSystem(this, camera, cursors, controls);
 	}
 	
 	update (time, delta)

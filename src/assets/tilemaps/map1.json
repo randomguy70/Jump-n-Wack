@@ -1,5 +1,4 @@
-{ "backgroundcolor":"#76d6ff",
- "compressionlevel":-1,
+{ "compressionlevel":-1,
  "height":25,
  "infinite":false,
  "layers":[
@@ -23,7 +22,6 @@
          "encoding":"base64",
          "height":25,
          "id":2,
-         "locked":true,
          "name":"Below Player",
          "opacity":1,
          "type":"tilelayer",
