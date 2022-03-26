@@ -27,10 +27,11 @@ body {
 #game-container {
 	align-self: center;
 	display: block;
-	margin: auto;	
+	margin: auto;
 }
 
 canvas {
 	display: block;   
 	margin: auto;
+	border-radius: 5px;
 }

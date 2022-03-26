@@ -8,7 +8,8 @@ export const config = {
 	height: 600,
 	pixelArt: true,
 	// backgroundColor: '#87ceeb', // sky blue
-	backgroundColor: '#211f30',    // dark brown
+	// backgroundColor: '#211f30',    // dark brown
+	backgroundColor: '#000',
 	
 	scale: {
 		parent: 'game-container',
