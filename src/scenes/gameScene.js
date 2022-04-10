@@ -1,3 +1,4 @@
+import { fruitAnimKeys } from '../fruits.js';
 import {config, gameData} from '../main.js';
 import {playerAnimKeys} from '../player.js';
 import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from '../player.js';
@@ -16,10 +17,9 @@ export var mapOffsetY;       // number
 
 export var belowPlayerLayer; // phaser map layer
 export var worldLayer;       // phaser map layer
-export var fruitLayer;       // phaser map layer
+export var appleLayer;       // phaser map layer
 
-export var coins;            // layer -> static group
-export var apples = [];      // layer -> static group
+export var apples;           // static group
 
 class GameScene extends Phaser.Scene
 {
@@ -32,12 +32,12 @@ class GameScene extends Phaser.Scene
 	preload ()
 	{
 		console.log('preloading...');
-		
 		console.log('loading tilemap');
+		
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
 		this.load.tilemapTiledJSON("map", "../src/assets/tilemaps/map1.json");
 		
-		console.log('sprite sheets');
+		console.log('loading sprite sheets');
 		
 		loadPlayerSpriteSheets(this);
 	}
@@ -53,15 +53,19 @@ class GameScene extends Phaser.Scene
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
 		// add the background color to the map (different from canvas bk)
-		console.log('map width' + map.widthInPixels + 'map height' + map.heightInPixels);
+		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
 		this.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
-		fruitLayer = map.getObjectLayer('Fruits')['objects'];
+		appleLayer = map.getObjectLayer('Apples');
+		
+		apples = map.createFromObjects("Apples", { name: 'Apple' });
+		apples.forEach(object => {
+			object.anims.play(fruitAnimKeys.apple);
+		 });
 		
 		// initialise objects
-		
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
 		player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
 		

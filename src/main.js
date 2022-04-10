@@ -24,17 +24,6 @@ export const config = {
 	},
 	
 	scenes: [ gameScene ],
-	
-	assets: '../assets/',
-	
-	level: 0,
-	lives: 1,
-	score: 0,
-	
-	enemySpeed: {
-		x: 80,
-		y: 300
-	}
 };
 
 const game = new Phaser.Game(config);
