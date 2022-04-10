@@ -1,4 +1,4 @@
-import player from './scenes/gameScene.js';
+import {player as playerSprite}from './scenes/gameScene.js';
 
 export const numPlayerSkins = 4;
 export const playerSkins = 
@@ -125,7 +125,7 @@ export function createPlayerAnims(scene)
 
 export function handlePlayerKeypresses(cursors, player)
 {
-	player.body.setVelocityX(0);
+	playerSprite.body.setVelocityX(0);
 		
 	// Horizontal movement
 		
@@ -133,44 +133,49 @@ export function handlePlayerKeypresses(cursors, player)
 	{
 		if(playerConfig.facingRight === true)
 		{
-			player.flipX = true;
+			playerSprite.flipX = true;
 			playerConfig.facingRight = false;
 		}
-		if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
+		if(playerSprite.body.onFloor() && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.run)
 		{
-			player.anims.play(playerAnimKeys.run);
+			playerSprite.anims.play(playerAnimKeys.run);
 		}
-		player.body.setVelocityX(-playerConfig.speedX);
+		playerSprite.body.setVelocityX(-playerConfig.speedX);
 	}
 	else if (cursors.right.isDown)
 	{
 		if(playerConfig.facingRight === false)
 		{
 			// false because it isn't being flipped
-			player.flipX = false;
+			playerSprite.flipX = false;
 			playerConfig.facingRight = true;
 		}
-		if(player.body.onFloor() && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.run)
+		if(playerSprite.body.onFloor() && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.run)
 		{
-			player.anims.play(playerAnimKeys.run);
+			playerSprite.anims.play(playerAnimKeys.run);
 		}
-		player.body.setVelocityX(playerConfig.speedX);
+		playerSprite.body.setVelocityX(playerConfig.speedX);
 	}
 	
 	// Vertical movement
 	
-	if (cursors.up.isDown && player.body.onFloor())
+	if (cursors.up.isDown && playerSprite.body.onFloor())
 	{
-		player.setVelocityY(-playerConfig.speedY);
-		player.anims.play(playerAnimKeys.jump);
+		playerSprite.setVelocityY(-playerConfig.speedY);
+		playerSprite.anims.play(playerAnimKeys.jump);
 	}
-	else if (player.body.velocity.y > 0 && player.anims.currentAnim.key != playerAnimKeys.fall && !player.body.onFloor())
+	else if (playerSprite.body.velocity.y > 0 && playerSprite.anims.currentAnim.key != playerAnimKeys.fall && !playerSprite.body.onFloor())
 	{
-	player.anims.play(playerAnimKeys.fall);
+		playerSprite.anims.play(playerAnimKeys.fall);
 	}
 	
-	else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && player.anims.isPlaying && player.anims.currentAnim.key != playerAnimKeys.idle && player.body.onFloor())
+	else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.idle && playerSprite.body.onFloor())
 	{
-		player.anims.play(playerAnimKeys.idle);
+		playerSprite.anims.play(playerAnimKeys.idle);
 	}
+}
+
+export function collectFruit(player, fruit, scene)
+{
+	
 }

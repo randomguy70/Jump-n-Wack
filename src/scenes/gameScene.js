@@ -17,7 +17,7 @@ export var mapOffsetY;       // number
 
 export var belowPlayerLayer; // phaser map layer
 export var worldLayer;       // phaser map layer
-export var appleLayer;       // phaser map layer
+export var objectLayer      // phaser map layer
 
 export var apples;           // static group
 
@@ -66,19 +66,20 @@ class GameScene extends Phaser.Scene
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
 		
-		appleLayer = map.getObjectLayer('Apples');
-		console.log(appleLayer);
+		objectLayer = map.getObjectLayer('Objects');
+		console.log(objectLayer);
 		
 		apples = this.physics.add.staticGroup();
 		
-		appleLayer.objects.forEach(object => {
-			let obj = apples.create(object.x, object.y, "Apple");
-      	obj.body.width = object.width;
-      	obj.body.height = object.height;
+		objectLayer.objects.forEach(object => {
+			if(object.type === "Apple")
+			{
+				let obj = apples.create(object.x + 8, object.y - 8, "Apple");
+      		obj.body.width = object.width;
+      		obj.body.height = object.height;
+				obj.anims.play(fruitAnimKeys.apple);
+			}
 		})
-		apples.playAnimation(fruitAnimKeys.apple);
-		
-		// apples = map.createFromObjects("Apples", { name: 'Apple' });
 		
 		// initialise objects
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
