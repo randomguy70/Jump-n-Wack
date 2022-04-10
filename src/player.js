@@ -6,7 +6,7 @@ export const playerSkins =
 	'Mask Dude', 'Ninja Frog', 'Pink Man', 'Virtual Guy'
 ];
 
-export const pathsToPlayers = 
+const pathsToPlayers = 
 [
 	'../src/assets/Main Characters/Mask Dude/',
 	'../src/assets/Main Characters/Ninja Frog/',
@@ -14,7 +14,7 @@ export const pathsToPlayers =
 	'../src/assets/Main Characters/Virtual Guy/'
 ];
 
-export const playerSpriteSheetKeys = 
+const playerSpriteSheetKeys = 
 {
 	doubleJump: 'playerDoubleJump',
 	fall: 'playerFall',
@@ -25,7 +25,7 @@ export const playerSpriteSheetKeys =
 	wallJump: 'playerWallJump'
 };
 
-export const playerSpriteSheetNames = 
+const playerSpriteSheetNames = 
 {
 	doubleJump: 'Double Jump (32x32).png',
 	fall: 'Fall (32x32).png',
@@ -60,7 +60,7 @@ export function loadPlayerSpriteSheets(scene)
 	);
 };
 
-export let playerIdle;  // phaser anim
+export var playerIdle;  // phaser anim
 export var playerRun;   // phaser anim
 export var playerJump;  // phaser anim
 export var playerFall;  // phaser anim

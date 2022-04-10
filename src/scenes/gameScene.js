@@ -1,4 +1,4 @@
-import { fruitAnimKeys } from '../fruits.js';
+import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims} from '../fruits.js';
 import {config, gameData} from '../main.js';
 import {playerAnimKeys} from '../player.js';
 import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from '../player.js';
@@ -40,30 +40,45 @@ class GameScene extends Phaser.Scene
 		console.log('loading sprite sheets');
 		
 		loadPlayerSpriteSheets(this);
+		loadFruitSpriteSheets(this);
 	}
 	
 	create ()
 	{
 		console.log('creating...');
 		
+		console.log("loading animations");
+		
+		createPlayerAnims(this);
+		createFruitAnims(this);
+		
 		// tilemap stuff
 		
-		map = this.make.tilemap({ key: "map" });
+		console.log("loading map and layers");
 		
+		map = this.make.tilemap({ key: "map" });
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
-		// add the background color to the map (different from canvas bk)
+		// add the background color to the map (different from canvas background)
 		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
 		this.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
-		appleLayer = map.getObjectLayer('Apples');
 		
-		apples = map.createFromObjects("Apples", { name: 'Apple' });
-		apples.forEach(object => {
-			object.anims.play(fruitAnimKeys.apple);
-		 });
+		appleLayer = map.getObjectLayer('Apples');
+		console.log(appleLayer);
+		
+		apples = this.physics.add.staticGroup();
+		
+		appleLayer.objects.forEach(object => {
+			let obj = apples.create(object.x, object.y, "Apple");
+      	obj.body.width = object.width;
+      	obj.body.height = object.height;
+		})
+		apples.playAnimation(fruitAnimKeys.apple);
+		
+		// apples = map.createFromObjects("Apples", { name: 'Apple' });
 		
 		// initialise objects
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
@@ -81,10 +96,6 @@ class GameScene extends Phaser.Scene
 		
 		player.body.setCollideWorldBounds(true);
 		player.body.setGravityY(gameData.gravity);
-		
-		// animations
-		
-		createPlayerAnims(this);
 		player.anims.play(playerAnimKeys.idle);
 		
 		initialiseSystem(this, camera, cursors, controls);
