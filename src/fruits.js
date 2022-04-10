@@ -2,6 +2,7 @@ import gameData from '../src/main.js';
 
 const fruitFrameWidth = 32;
 const fruitFrameHeight = 32;
+const fruitValue = 5;
 
 const fruitSpriteSheetKeys = 
 {
@@ -121,8 +122,12 @@ export function createFruitAnims(scene)
 	});
 }
 
-function collectFruit(fruit)
+export function collectFruit(player, fruit)
 {
-	// destroy the fruit somehow
-	gameData.score += gameData.fruitScoreValue;
+	
+	fruit.disableBody(true, true);
+	gameData.score += fruitValue;
+	
+	console.log("collected a fruit");
 }
+

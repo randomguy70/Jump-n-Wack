@@ -42,9 +42,6 @@ export const gameData =
 	score: 0,
 	lives: 1,
 	skin: 1,
-	
-	fruitScoreValue: 5,
-	
 	gravity: 1000,
 };
 
