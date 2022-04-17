@@ -127,27 +127,27 @@ export class Player
 			
 			scene.load.spritesheet(playerSpriteSheetKeys[i].idle,
 				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.idle, 
-				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
 			);
 			scene.load.spritesheet(playerSpriteSheetKeys[i].run, 
-				basePathToPlayer + playerSpriteSheetNames.run,
+				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.run,
 				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
 			);
 			scene.load.spritesheet(playerSpriteSheetKeys[i].jump,
 				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.jump,
-				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
 			);
 			scene.load.spritesheet(playerSpriteSheetKeys[i].fall,
 				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.fall,
-				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
 			);
 			scene.load.spritesheet(playerSpriteSheetKeys[i].hit,
 				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.hit,
-				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
 			);
 		}
 	};
-
+	
 	createAnims(scene)
 	{
 		for(var i = 0; i < playerAnimKeys.length; i++)
@@ -200,18 +200,14 @@ export class Player
 		
 		if (cursors.left.isDown)
 		{
-			console.log("moving left");
 			if(this.sprite.flipX === false)
 			{
-				console.log("1");
 				this.sprite.flipX = true;
 			}
 			if(this.sprite.body.onFloor() && this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].run)
 			{
-				console.log("2");
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			console.log("3");
 			this.sprite.body.setVelocityX(-this.speedX);
 		}
 		
@@ -225,7 +221,7 @@ export class Player
 			{
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			this.sprite.body.setVelocityX(playerConfig.speedX);
+			this.sprite.body.setVelocityX(this.speedX);
 		}
 		
 		// Vertical movement
