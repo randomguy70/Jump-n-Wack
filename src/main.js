@@ -7,20 +7,20 @@ export const config = {
 	width: 800,
 	height: 600,
 	pixelArt: true,
-	// backgroundColor: '#87ceeb', // sky blue
 	backgroundColor: '#000',
-	
 	scale: {
 		parent: 'game-container',
 		autoCenter: Phaser.Scale.CENTER_BOTH
 	},
-	
 	physics: {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 50, x: 0 },
 			debug: false
 		}
+	},
+	audio: {
+		disableWebAudio: true
 	},
 	
 	scenes: [ gameScene ],

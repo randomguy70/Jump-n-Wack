@@ -275,41 +275,6 @@
          "visible":true,
          "x":0,
          "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":7,
-         "name":"Spikes",
-         "objects":[
-                {
-                 "gid":271,
-                 "height":16,
-                 "id":16,
-                 "name":"spike",
-                 "rotation":0,
-                 "type":"spike",
-                 "visible":true,
-                 "width":16,
-                 "x":192,
-                 "y":352
-                }, 
-                {
-                 "gid":271,
-                 "height":16,
-                 "id":17,
-                 "name":"spike",
-                 "rotation":0,
-                 "type":"spike",
-                 "visible":true,
-                 "width":16,
-                 "x":208,
-                 "y":352
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "x":0,
-         "y":0
         }],
  "nextlayerid":8,
  "nextobjectid":59,

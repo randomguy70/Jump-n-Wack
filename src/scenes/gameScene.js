@@ -1,13 +1,10 @@
 import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims, collectFruit} from '../fruits.js';
 import {config, gameData} from '../main.js';
-import {playerAnimKeys} from '../player.js';
-import {loadPlayerSpriteSheets, createPlayerAnims, handlePlayerKeypresses} from '../player.js';
+import {Player} from '../player.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
 export var controls;         // phaser object
-
-export var player;           // phaser sprite
 
 export var map;              // tilemap
 export var tileset;          // tileset image
@@ -19,10 +16,11 @@ export var belowPlayerLayer; // phaser map layer
 export var worldLayer;       // phaser map layer
 export var objectLayer       // phaser map layer
 
+var player = new Player(this);
 export var fruits;           // static group
 
 class GameScene extends Phaser.Scene
-{
+{	
 	constructor ()
 	{
 		console.log('Constructed gameScene');
@@ -39,7 +37,7 @@ class GameScene extends Phaser.Scene
 		
 		console.log('loading sprite sheets');
 		
-		loadPlayerSpriteSheets(this);
+		player.loadSpriteSheets(this);
 		loadFruitSpriteSheets(this);
 	}
 	
@@ -49,7 +47,7 @@ class GameScene extends Phaser.Scene
 		
 		console.log("loading animations");
 		
-		createPlayerAnims(this);
+		player.createAnims(this);
 		createFruitAnims(this);
 		
 		// tilemap stuff
@@ -85,21 +83,18 @@ class GameScene extends Phaser.Scene
 		// obstaclesLayer.setCollisionByProperty({Kills: true});
 		
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
-		player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
-		player.body.setCollideWorldBounds(true);
-		player.body.setGravityY(gameData.gravity);
-		player.anims.play(playerAnimKeys.idle);
+		const playerSprite = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
+		player.initSprite(playerSprite, gameData.gravity);
+		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
+		this.physics.add.collider(player.sprite, worldLayer);
 		
 		initialiseSystem(this, camera, cursors, controls);
-		
-		this.physics.add.overlap(player, fruits, collectFruit, null, this);
-		this.physics.add.collider(player, worldLayer);
 	}
 	
 	update (time, delta)
 	{
 		controls.update(delta);
-		handlePlayerKeypresses(cursors, player);
+		player.handleKeypresses(cursors);
 	}
 }
 

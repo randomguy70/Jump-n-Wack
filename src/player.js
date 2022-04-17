@@ -1,29 +1,11 @@
-import {player as playerSprite}from './scenes/gameScene.js';
-
-export const numPlayerSkins = 4;
 export const playerSkins = 
 [
 	'Mask Dude', 'Ninja Frog', 'Pink Man', 'Virtual Guy'
 ];
+const PLAYER_WIDTH = 32;
+const PLAYER_HEIGHT = 32;
 
-const pathsToPlayers = 
-[
-	'../src/assets/Main Characters/Mask Dude/',
-	'../src/assets/Main Characters/Ninja Frog/',
-	'../src/assets/Main Characters/Pink Man/',
-	'../src/assets/Main Characters/Virtual Guy/'
-];
-
-const playerSpriteSheetKeys = 
-{
-	doubleJump: 'playerDoubleJump',
-	fall: 'playerFall',
-	hit: 'playerHit',
-	idle: 'playerIdle',
-	jump: 'playerJump',
-	run: 'playerRun',
-	wallJump: 'playerWallJump'
-};
+export const basePathToPlayer = "../src/assets/Main Characters/";
 
 const playerSpriteSheetNames = 
 {
@@ -36,146 +18,240 @@ const playerSpriteSheetNames =
 	wallJump: 'Wall Jump (32x32).png'
 };
 
-export function loadPlayerSpriteSheets(scene)
-{
-	scene.load.spritesheet(playerSpriteSheetKeys.idle,
-		playerConfig.path + playerSpriteSheetNames.idle, 
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-   scene.load.spritesheet(playerSpriteSheetKeys.run, 
-		playerConfig.path + playerSpriteSheetNames.run,
-   	{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight }
-   );
-	scene.load.spritesheet(playerSpriteSheetKeys.jump,
-		playerConfig.path + playerSpriteSheetNames.jump,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-	scene.load.spritesheet(playerSpriteSheetKeys.fall,
-		playerConfig.path + playerSpriteSheetNames.fall,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-	scene.load.spritesheet(playerSpriteSheetKeys.hit,
-		playerConfig.path + playerSpriteSheetNames.hit,
-		{ frameWidth: playerConfig.frameWidth, frameHeight: playerConfig.frameHeight}
-	);
-};
+const playerSpriteSheetKeys = 
+[
+	{
+		doubleJump: playerSkins[0] + "playerDoubleJumpSpriteSheet",
+		fall: playerSkins[0] + "playerFallSpriteSheet",
+		hit: playerSkins[0] + "playerHitSpriteSheet",
+		idle: playerSkins[0] + "playerIdleSpriteSheet",
+		jump: playerSkins[0] + "playerJumpSpriteSheet",
+		run: playerSkins[0] + "playerRunSpriteSheet",
+		wallJump: playerSkins[0] + "playerWallJumpSpriteSheet",
+	},
+	{
+		doubleJump: playerSkins[1] + "playerDoubleJumpSpriteSheet",
+		fall: playerSkins[1] + "playerFallSpriteSheet",
+		hit: playerSkins[1] + "playerHitSpriteSheet",
+		idle: playerSkins[1] + "playerIdleSpriteSheet",
+		jump: playerSkins[1] + "playerJumpSpriteSheet",
+		run: playerSkins[1] + "playerRunSpriteSheet",
+		wallJump: playerSkins[1] + "playerWallJumpSpriteSheet",
+	},
+	{
+		doubleJump: playerSkins[2] + "playerDoubleJumpSpriteSheet",
+		fall: playerSkins[2] + "playerFallSpriteSheet",
+		hit: playerSkins[2] + "playerHitSpriteSheet",
+		idle: playerSkins[2] + "playerIdleSpriteSheet",
+		jump: playerSkins[2] + "playerJumpSpriteSheet",
+		run: playerSkins[2] + "playerRunSpriteSheet",
+		wallJump: playerSkins[2] + "playerWallJumpSpriteSheet",
+	},
+	{
+		doubleJump: playerSkins[3] + "playerDoubleJumpSpriteSheet",
+		fall: playerSkins[3] + "playerFallSpriteSheet",
+		hit: playerSkins[3] + "playerHitSpriteSheet",
+		idle: playerSkins[3] + "playerIdleSpriteSheet",
+		jump: playerSkins[3] + "playerJumpSpriteSheet",
+		run: playerSkins[3] + "playerRunSpriteSheet",
+		wallJump: playerSkins[3] + "playerWallJumpSpriteSheet",
+	}
+]
 
-export var playerIdle;  // phaser anim
-export var playerRun;   // phaser anim
-export var playerJump;  // phaser anim
-export var playerFall;  // phaser anim
+const playerAnimKeys = 
+[
+	{
+		doubleJump: playerSkins[0] + "playerDoubleJumpAnim",
+		fall: playerSkins[0] + "playerFallAnim",
+		hit: playerSkins[0] + "playerHitAnim",
+		idle: playerSkins[0] + "playerIdleAnim",
+		jump: playerSkins[0] + "playerJumpAnim",
+		run: playerSkins[0] + "playerRunAnim",
+		wallJump: playerSkins[0] + "playerWallJumpAnim",
+	},
+	{
+		doubleJump: playerSkins[1] + "playerDoubleJumpAnim",
+		fall: playerSkins[1] + "playerFallAnim",
+		hit: playerSkins[1] + "playerHitAnim",
+		idle: playerSkins[1] + "playerIdleAnim",
+		jump: playerSkins[1] + "playerJumpAnim",
+		run: playerSkins[1] + "playerRunAnim",
+		wallJump: playerSkins[1] + "playerWallJumpAnim",
+	},
+	{
+		doubleJump: playerSkins[2] + "playerDoubleJumpAnim",
+		fall: playerSkins[2] + "playerFallAnim",
+		hit: playerSkins[2] + "playerHitAnim",
+		idle: playerSkins[2] + "playerIdleAnim",
+		jump: playerSkins[2] + "playerJumpAnim",
+		run: playerSkins[2] + "playerRunAnim",
+		wallJump: playerSkins[2] + "playerWallJumpAnim",
+	},
+	{
+		doubleJump: playerSkins[3] + "playerDoubleJumpAnim",
+		fall: playerSkins[3] + "playerFallAnim",
+		hit: playerSkins[3] + "playerHitAnim",
+		idle: playerSkins[3] + "playerIdleAnim",
+		jump: playerSkins[3] + "playerJumpAnim",
+		run: playerSkins[3] + "playerRunAnim",
+		wallJump: playerSkins[3] + "playerWallJumpAnim",
+	}
+]
 
-export const playerAnimKeys = 
+export class Player 
 {
-	doubleJump: 'playerDoubleJumpAnim',
-	fall: 'playerFallAnim',
-	hit: 'playerHitAnim',
-	idle: 'playerIdleAnim',
-	jump: 'playerJumpAnim',
-	run: 'playerRunAnim',
-	wallJump: 'playerWallJumpAnim'
-};
-
-export const playerConfig =
-{
-	frameWidth: 32,
-	frameHeight: 32,
+	constructor(scene)
+	{
+		this.scene = scene;
+		this.basePath = "../src/assets/Main Characters/";
+		this.skin = 1;
+		this.speedX = 100;
+		this.speedY = 430;
+		this.width = 32;
+		this.height = 32;
+	}
 	
-	speedX: 100,
-	speedY: 430,
+	initSprite(sprite, gravityY)
+	{
+		this.sprite = sprite;
+		this.sprite.anims.play(playerAnimKeys[this.skin].idle);
+		this.sprite.body.setCollideWorldBounds(true);
+		this.sprite.body.setGravityY(gravityY);
+	}
 	
-	facingRight: true,
-	
-	skin: 1,
-	path: pathsToPlayers[1],
-};
-
-export function createPlayerAnims(scene)
-{
-	playerIdle = scene.anims.create(
+	loadSpriteSheets(scene)
+	{
+		for(var i = 0; i < playerSpriteSheetKeys.length; i++)
 		{
-		key: playerAnimKeys.idle,
-		frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.idle),
-		frameRate: 20,
-		repeat: -1,
-	});
-	playerRun = scene.anims.create(
-		{
-		key: playerAnimKeys.run,
-		frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.run),
-		frameRate: 20,
-		repeat: -1
-	});
-	playerJump = scene.anims.create(
-		{
-			key: playerAnimKeys.jump,
-			frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.jump),
-			frameRate: 1,
-			repeat: -1,
-	});
-	playerFall = scene.anims.create(
-		{
-			key: playerAnimKeys.fall,
-			frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys.fall),
-			frameRate: 1,
-			repeat: -1,
+			let path = basePathToPlayer + playerSkins[i] + "/";
+			
+			scene.load.spritesheet(playerSpriteSheetKeys[i].idle,
+				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.idle, 
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+			);
+			scene.load.spritesheet(playerSpriteSheetKeys[i].run, 
+				basePathToPlayer + playerSpriteSheetNames.run,
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT }
+			);
+			scene.load.spritesheet(playerSpriteSheetKeys[i].jump,
+				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.jump,
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+			);
+			scene.load.spritesheet(playerSpriteSheetKeys[i].fall,
+				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.fall,
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+			);
+			scene.load.spritesheet(playerSpriteSheetKeys[i].hit,
+				basePathToPlayer + playerSkins[i] + "/" + playerSpriteSheetNames.hit,
+				{ frameWidth: PLAYER_WIDTH, frameHeight: PLAYER_HEIGHT}
+			);
 		}
-	);
-}
+	};
 
-export function handlePlayerKeypresses(cursors, player)
-{
-	playerSprite.body.setVelocityX(0);
+	createAnims(scene)
+	{
+		for(var i = 0; i < playerAnimKeys.length; i++)
+		{
+			scene.anims.create(
+				{
+				key: playerAnimKeys[i].idle,
+				frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].idle),
+				frameRate: 20,
+				repeat: -1,
+			});
+			scene.anims.create(
+				{
+				key: playerAnimKeys[i].run,
+				frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].run),
+				frameRate: 20,
+				repeat: -1
+			});
+			scene.anims.create(
+				{
+					key: playerAnimKeys[i].jump,
+					frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].jump),
+					frameRate: 1,
+					repeat: -1,
+			});
+			scene.anims.create(
+				{
+					key: playerAnimKeys[i].fall,
+					frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].fall),
+					frameRate: 1,
+					repeat: -1,
+				}
+			);
+		}
+	}
+	
+	skinNames = 
+	[
+		"Mask Dude",
+		"Ninja Frog",
+		"Pink Man",
+		"Virtual Guy",
+	]
+	
+	handleKeypresses(cursors)
+	{
+		this.sprite.body.setVelocityX(0);
 		
-	// Horizontal movement
+		// Horizontal movement
 		
-	if (cursors.left.isDown)
-	{
-		if(playerConfig.facingRight === true)
+		if (cursors.left.isDown)
 		{
-			playerSprite.flipX = true;
-			playerConfig.facingRight = false;
+			console.log("moving left");
+			if(this.sprite.flipX === false)
+			{
+				console.log("1");
+				this.sprite.flipX = true;
+			}
+			if(this.sprite.body.onFloor() && this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].run)
+			{
+				console.log("2");
+				this.sprite.anims.play(playerAnimKeys[this.skin].run);
+			}
+			console.log("3");
+			this.sprite.body.setVelocityX(-this.speedX);
 		}
-		if(playerSprite.body.onFloor() && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.run)
+		
+		else if (cursors.right.isDown)
 		{
-			playerSprite.anims.play(playerAnimKeys.run);
+			if(this.sprite.flipX === true)
+			{
+				this.sprite.flipX = false;
+			}
+			if(this.sprite.body.onFloor() && this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].run)
+			{
+				this.sprite.anims.play(playerAnimKeys[this.skin].run);
+			}
+			this.sprite.body.setVelocityX(playerConfig.speedX);
 		}
-		playerSprite.body.setVelocityX(-playerConfig.speedX);
-	}
-	else if (cursors.right.isDown)
-	{
-		if(playerConfig.facingRight === false)
+		
+		// Vertical movement
+		
+		if (cursors.up.isDown && this.sprite.body.onFloor())
 		{
-			// false because it isn't being flipped
-			playerSprite.flipX = false;
-			playerConfig.facingRight = true;
+			this.sprite.setVelocityY(-this.speedY);
+			this.sprite.anims.play(playerAnimKeys[this.skin].jump);
 		}
-		if(playerSprite.body.onFloor() && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.run)
+		else if (this.sprite.body.velocity.y > 0 && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].fall && !this.sprite.body.onFloor())
 		{
-			playerSprite.anims.play(playerAnimKeys.run);
+			this.sprite.anims.play(playerAnimKeys[this.skin].fall);
 		}
-		playerSprite.body.setVelocityX(playerConfig.speedX);
+		
+		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].idle && this.sprite.body.onFloor())
+		{
+			this.sprite.anims.play(playerAnimKeys[this.skin].idle);
+		}
 	}
 	
-	// Vertical movement
-	
-	if (cursors.up.isDown && playerSprite.body.onFloor())
+	idle()
 	{
-		playerSprite.setVelocityY(-playerConfig.speedY);
-		playerSprite.anims.play(playerAnimKeys.jump);
+		this.sprite.anims.play(playerAnimKeys[this.skin].idle);
 	}
-	else if (playerSprite.body.velocity.y > 0 && playerSprite.anims.currentAnim.key != playerAnimKeys.fall && !playerSprite.body.onFloor())
+	jump()
 	{
-		playerSprite.anims.play(playerAnimKeys.fall);
+		this.sprite.anims.play(playerAnimKeys[this.skin].jump);
 	}
-	
-	else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && playerSprite.anims.isPlaying && playerSprite.anims.currentAnim.key != playerAnimKeys.idle && playerSprite.body.onFloor())
-	{
-		playerSprite.anims.play(playerAnimKeys.idle);
-	}
-}
-
-export function collectFruit(player, fruit, scene)
-{
-	
 }
