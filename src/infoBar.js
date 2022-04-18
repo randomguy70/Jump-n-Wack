@@ -1,24 +1,16 @@
-import gameData from "./main.js";
+import {config} from "./main.js";
 
-function initialiseInfoBar()
+export class InfoBar
 {
-	var infoBar = document.getElementById("info-bar");
-	var canvas = document.getElementsByTagName("canvas");
-	var gameContainer = document.getElementById("game-container");
-	gameContainer.style.width = 800;
-	gameContainer.style.height = 600;
-	console.log("resized game container");
-}
-
-initialiseInfoBar();
-/*
-function initialiseScoreElement()
-{
-	var canvas = document.getElementById("game-container");
-	var scoreElement = document.getElementById("score")
+	constructor(scene)
+	{
+		this.width = 300;
+		this.height = 175;
+		this.x = config.width - this.width;
+		this.y = this.height;
+		this.color = 0xaaaaaa;
+		
+		scene.add.rectangle(this.x, this.y, this.width, this.height, this.color, .5).setOrigin(0, 0);
+	}
 	
-	canvas.textContent = "0";
-	console.log(canvas.style.width);
 }
-
-*/

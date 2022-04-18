@@ -104,11 +104,15 @@ export class Player
 	{
 		this.scene = scene;
 		this.basePath = "../src/assets/Main Characters/";
+		
 		this.skin = 1;
+		this.lives = 1;
+		this.score = 0;
 		this.speedX = 100;
 		this.speedY = 430;
 		this.width = 32;
 		this.height = 32;
+		console.log("player initialised: " + this);
 	}
 	
 	initSprite(sprite, gravityY)
