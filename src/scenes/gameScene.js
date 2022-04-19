@@ -61,6 +61,7 @@ export class GameScene extends Phaser.Scene
 		
 		// add the background color to the map (different from canvas background)
 		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
+		
 		this.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
@@ -113,20 +114,33 @@ function initialiseSystem(scene)
 		right: cursors.right,
 		up: cursors.up,
 		down: cursors.down,
-		});
+		}
+	);
 	
 	// if scrolling is necessary...
 	if(map.widthInPixels > config.width || map.heightInPixels > config.height)
 	{
-		camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-		camera.startFollow(player);
+		console.log("setting up scrolling system.");
+		
+		gameData.cameraX = 0;
+		gameData.cameraY = 0;
+		gameData.cameraWidth = config.width;
+		gameData.cameraHeight = config.height;
+		
+		camera.setBounds(gameData.cameraX, gameData.cameraY, gameData.cameraWidth, gameData.cameraHeight);
+		camera.startFollow(player);	
 	}
 	
-	// if no scrolling, center camera on map
+	// if the whole tilemap fits onscreen, center camera on map
 	else
 	{
-		var cameraX = -(config.width / 2 - map.widthInPixels / 2);
-		var cameraY = -(config.height / 2 - map.heightInPixels / 2);
-		camera.setBounds(cameraX, cameraY, config.width, config.height);
+		console.log("setting up centered view.");
+		
+		gameData.cameraX = -(config.width / 2 - map.widthInPixels / 2);
+		gameData.cameraY = -(config.height / 2 - map.heightInPixels / 2);
+		gameData.cameraWidth = config.width;
+		gameData.cameraHeight = config.height;
+		
+		camera.setBounds(gameData.cameraX, gameData.cameraY, gameData.cameraWidth, gameData.cameraHeight);
 	}
 }

@@ -19,6 +19,9 @@ export const config = {
 			debug: false
 		}
 	},
+	dom: {
+		createContainer: true
+	},
 	audio: {
 		disableWebAudio: true
 	},
@@ -43,6 +46,10 @@ export const gameData =
 	lives: 1,
 	skin: 1,
 	gravity: 1000,
+	cameraX: null,
+	cameraY: null,
+	cameraWidth: null,
+	cameraHeight: null,
 };
 
 export default config;
