@@ -1,4 +1,5 @@
 import {config, gameData} from "./main.js";
+import {graphics} from "./scenes/gameScene.js";
 
 export class InfoBar
 {
@@ -12,6 +13,8 @@ export class InfoBar
 		this.opacity = .7;
 		
 		scene.add.rectangle(this.x, this.y, this.width, this.height, this.color, this.opacity).setOrigin(0, 0);
+		graphics.lineStyle(2, 0xa00000, 1);
+		graphics.strokeRect(this.x, this.y, this.width, this.height).setOrigin(0, 0);
 	}
 	
 }

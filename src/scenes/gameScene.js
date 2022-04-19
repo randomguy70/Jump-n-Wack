@@ -6,6 +6,7 @@ import {InfoBar} from '../infoBar.js';
 export var camera;           // phaser object
 export var cursors;          // phaser object
 export var controls;         // phaser object
+export var graphics;
 
 export var map;              // tilemap
 export var tileset;          // tileset image
@@ -47,6 +48,8 @@ export class GameScene extends Phaser.Scene
 	{
 		console.log('creating...');
 		
+		graphics = this.add.graphics();
+		
 		console.log("loading animations");
 		
 		player.createAnims(this);
@@ -61,8 +64,7 @@ export class GameScene extends Phaser.Scene
 		
 		// add the background color to the map (different from canvas background)
 		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
-		
-		this.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
+		drawBackground(this);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
@@ -143,4 +145,9 @@ function initialiseSystem(scene)
 		
 		camera.setBounds(gameData.cameraX, gameData.cameraY, gameData.cameraWidth, gameData.cameraHeight);
 	}
+}
+
+function drawBackground(scene)
+{
+	scene.add.rectangle(0, 0, map.widthInPixels, map.heightInPixels, 0x87ceeb).setOrigin(0, 0);
 }
