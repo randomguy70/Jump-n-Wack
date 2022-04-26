@@ -1,5 +1,4 @@
-import {config, gameData} from "./main.js";
-import {graphics} from "./scenes/gameScene.js";
+import {gameData} from "./main.js";
 
 export class ScoreBar
 {
@@ -13,6 +12,7 @@ export class ScoreBar
 		this.sprite = null;
 		console.log("constructed score bar");
 	}
+	
 	load(scene)
 	{
 		scene.load.image(this.key, this.url);		
