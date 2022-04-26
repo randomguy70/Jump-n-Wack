@@ -1,7 +1,7 @@
 import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims, collectFruit} from '../fruits.js';
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
-import {InfoBar} from '../infoBar.js';
+import {ScoreBar} from '../scoreBar.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -18,9 +18,10 @@ export var belowPlayerLayer; // phaser map layer
 export var worldLayer;       // phaser map layer
 export var objectLayer       // phaser map layer
 
-var player = new Player(this);
-var infoBar;
 export var fruits;           // static group
+
+var player = new Player(this);
+var scoreBar = new ScoreBar();
 
 export class GameScene extends Phaser.Scene
 {	
@@ -42,6 +43,7 @@ export class GameScene extends Phaser.Scene
 		
 		player.loadSpriteSheets(this);
 		loadFruitSpriteSheets(this);
+		scoreBar.load(this);
 	}
 	
 	create ()
@@ -95,7 +97,7 @@ export class GameScene extends Phaser.Scene
 		
 		initialiseSystem(this, camera, cursors, controls);
 		
-		infoBar = new InfoBar(this);
+		scoreBar.draw(this);
 	}
 	
 	update (time, delta)
