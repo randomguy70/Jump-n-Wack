@@ -1,13 +1,14 @@
-const baseUrl = "../src/assets/Enemies/";
+import { player } from "./scenes/gameScene.js";
 
 /*
 NOTE:
-	Indexing all of the dictionaries here works like this:
+	Indexing all of the dictionaries in this file works like this:
 		dict[name: string][action: string]
 	This is so that I can write more modular code and loop through all of the sprite sheet keys, animations, etc...without re-typing separate functions for each different enemy.
-	Since not all actions are common to all enemies, I have to check if the dict[name][action] is undefined. If so, then skip to the next action.
+	Since not all actions are common to all enemies, I have to check if the dict[name][action] is undefined. If so, then skip to dealing with the next action.
 */
 
+const baseUrl = "../src/assets/Enemies/";
 
 const enemyNames =
 [
@@ -18,6 +19,12 @@ const enemyActions =
 [
 	"Idle", "Walk", "Run", "Hit", "Jump", "Fall", // will add more. this is just the testing phase
 ]
+
+const enemySpeeds =
+{
+	"AngryPig": 15,
+	"Bunny": 25,
+}
 
 const enemyDimensions = 
 {
@@ -163,8 +170,51 @@ export function startAllEnemiesIdle(enemyGroup)
 
 export function updateEnemies(enemyGroup)
 {
-	enemyGroup.children.entries.forEach(enemy => {
+	// this is for random decisions
+	let seedBase = Math.random() * 1000000000000000;
+	let seed = 0;
 		
+	enemyGroup.children.entries.forEach(enemy => {
+		if(enemy.name === "AngryPig")
+		{
+			seed = (seedBase & (0xff << 0));
+			
+			// the pig doesn't notice unless the player is within 100 pixels on the same plane. Then, he turns red and charges...
+			if(enemy.body.touching.down && spriteIsWithinDistance(enemy, player.sprite, 100, 20))
+			{
+				// btw, sprite is built to face left
+				
+				enemy.anims.play(enemyAnimKeys["AngryPig"]["Run"]);
+				
+				if(enemy.x < player.sprite.x)
+				{
+					enemy.body.flipX = true;
+					enemy.body.setVelocityX(enemySpeeds["AngryPig"]);
+				}
+				else
+				{
+					enemy.body.flipX = false;
+					enemy.body.setVelocityX(-enemySpeeds["AngryPig"]);
+				}
+				
+			}
+		}
+		else if(enemy.name === "Bunny")
+		{
+			
+		}
 	})
 	
+}
+
+function spriteIsWithinDistance(sprite1, sprite2, xDistance, yDistance)
+{
+	if((Math.abs(sprite1.x - sprite2.x) <= xDistance) && (Math.abs(sprite1.y - sprite2.y) <= yDistance))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

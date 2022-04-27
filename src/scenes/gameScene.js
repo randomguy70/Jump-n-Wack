@@ -2,7 +2,7 @@ import { spawnFruitsFromLayer, loadFruitSpriteSheets, createFruitAnims, collectF
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
 import {ScoreBar} from '../scoreBar.js';
-import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle} from '../enemies.js';
+import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle, updateEnemies} from '../enemies.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -101,6 +101,7 @@ export class GameScene extends Phaser.Scene
 	{
 		controls.update(delta);
 		player.handleKeypresses(cursors);
+		updateEnemies(enemies);
 	}
 }
 
