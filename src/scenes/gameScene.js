@@ -20,7 +20,7 @@ export var objectLayer       // phaser map layer
 
 export var fruits;           // static group
 
-var player = new Player(this);
+export var player = new Player(this);
 var scoreBar = new ScoreBar();
 
 export class GameScene extends Phaser.Scene
