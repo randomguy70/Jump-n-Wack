@@ -88,17 +88,13 @@ export function loadEnemySpriteSheets(scene)
 	for(var i = 0; i < enemyNames.length; i++)
 	{
 		let name = enemySpriteSheetPaths[enemyNames[i]];
-		if(typeof(name) === "undefined")
-		{
-			continue;
-		}
+		if(typeof(name) === "undefined") { continue }
+		
 		for(var ii = 0; ii < enemyActions.length; ii++)
 		{
 			let action = enemyActions[ii];
-			if(typeof(name[action]) === "undefined")
-			{
-				continue;
-			}
+			if(typeof(name[action]) === "undefined") { continue }
+			
 			scene.load.spritesheet(enemySpriteSheetKeys[enemyNames[i]][action],
 				enemySpriteSheetPaths[enemyNames[i]][action], 
 				{ frameWidth: enemyDimensions[enemyNames[i]]["Width"], frameHeight: enemyDimensions[enemyNames[i]]["Height"] }
@@ -112,7 +108,7 @@ export function loadEnemyAnims(scene)
 	for(var i = 0; i < enemyNames.length; i++)
 	{
 		let name = enemyNames[i];
-		if(typeof(enemyAnimKeys[name]) === "undefined") { console.log("encountered enemy animation loading error"); continue; }
+		if(typeof(enemyAnimKeys[name]) === "undefined") { continue; }
 		
 		for(var ii = 0; ii < enemyActions.length; ii++)
 		{
