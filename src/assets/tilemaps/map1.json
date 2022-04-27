@@ -54,6 +54,54 @@
                  "width":0,
                  "x":64,
                  "y":64
+                }, 
+                {
+                 "height":0,
+                 "id":87,
+                 "name":"Bunny",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":48,
+                 "y":176
+                }, 
+                {
+                 "height":0,
+                 "id":88,
+                 "name":"AngryPig",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":240,
+                 "y":336
+                }, 
+                {
+                 "height":0,
+                 "id":89,
+                 "name":"Bunny",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":480,
+                 "y":288
+                }, 
+                {
+                 "height":0,
+                 "id":90,
+                 "name":"AngryPig",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":608,
+                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -277,7 +325,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":59,
+ "nextobjectid":93,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
@@ -3537,7 +3585,8 @@
                          "name":"Collides",
                          "type":"bool",
                          "value":false
-                        }]
+                        }],
+                 "type":"Portal"
                 }, 
                 {
                  "id":359,

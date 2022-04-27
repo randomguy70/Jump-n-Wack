@@ -2,6 +2,7 @@ import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims, collectFruit} f
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
 import {ScoreBar} from '../scoreBar.js';
+import {loadEnemySpriteSheets} from '../enemies.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -16,9 +17,11 @@ export var mapOffsetY;       // number
 
 export var belowPlayerLayer; // phaser map layer
 export var worldLayer;       // phaser map layer
-export var objectLayer       // phaser map layer
+export var objectLayer;      // phaser map layer
+export var spawnLayer;       // phaser map layer
 
-export var fruits;           // static group
+export var fruits;           // group
+export var enemies;          // group
 
 export var player = new Player(this);
 var scoreBar = new ScoreBar();
@@ -44,8 +47,7 @@ export class GameScene extends Phaser.Scene
 		player.loadSpriteSheets(this);
 		loadFruitSpriteSheets(this);
 		scoreBar.load(this);
-		
-		this.load.spritesheet("portalKey", "../src/assets/Other/greenPortal.png", {frameWidth: 56, frameHeight: 85});
+		loadEnemySpriteSheets(this);
 	}
 	
 	create ()
@@ -74,7 +76,7 @@ export class GameScene extends Phaser.Scene
 		worldLayer = map.createLayer("World", tileset, 0, 0);
 		
 		objectLayer = map.getObjectLayer('Objects');
-		console.log(objectLayer);
+		spawnLayer = map.getObjectLayer("Spawns");
 		
 		fruits = this.physics.add.staticGroup();
 		
@@ -87,6 +89,17 @@ export class GameScene extends Phaser.Scene
 				obj.anims.play(fruitAnimKeys.apple);
 			}
 		});
+		
+		enemies = this.physics.add.staticGroup();
+		
+		spawnLayer.objects.forEach(object => {
+			if(object.type === "Enemy")
+			{
+				let obj = enemies.create(object.x, object.y, object.name);
+				obj.body.width = obj.width;
+				obj.body.height = obj.height;
+			}
+		})
 		
 		worldLayer.setCollisionByProperty({ Collides: true });
 		// obstaclesLayer.setCollisionByProperty({Kills: true});
