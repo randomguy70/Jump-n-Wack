@@ -99,6 +99,10 @@ export class GameScene extends Phaser.Scene
 				obj.body.width = obj.width;
 				obj.body.height = obj.height;
 				obj.name = object.name;
+				
+				// different enemies are different sizes...
+				if(obj.name === "Bunny") {obj.y -= 22}
+				if(obj.name === "AngryPig") {obj.y -= 15}
 			}
 		})
 		
