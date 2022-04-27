@@ -112,27 +112,20 @@ export function loadEnemyAnims(scene)
 	for(var i = 0; i < enemyNames.length; i++)
 	{
 		let name = enemyNames[i];
-		if(typeof(enemyAnimKeys[name]) === "undefined")
-		{
-			continue;
-		}
-		let curEnemy = enemyAnimKeys[name];
+		if(typeof(enemyAnimKeys[name]) === "undefined") { console.log("encountered enemy animation loading error"); continue; }
 		
 		for(var ii = 0; ii < enemyActions.length; ii++)
 		{
 			let action = enemyActions[ii];
-			if(typeof(name[action]) === "undefined")
+			if(typeof(enemyAnimKeys[name][action]) === "undefined") { continue }
+			
+			scene.anims.create(
 			{
-				continue;
-			}
-			let anim = scene.anims.create(
-				{
 				key: enemyAnimKeys[name][action],
 				frames: scene.anims.generateFrameNumbers(enemySpriteSheetKeys[name][action]),
 				frameRate: 20,
 				repeat: -1,
 			});
-			console.log("enemy animation: ", anim);
 		}
 	}
 	
