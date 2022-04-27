@@ -41,7 +41,24 @@ game.scene.start('gameScene');
 
 export const gameData = 
 {
-	level: 0,
+	map: 0,
+	mapKeys:
+	[
+		"map1Key",
+		"map2Key",
+		"map3Key",
+		"map4Key",
+		"map5Key",
+		"map6Key",
+		"map7Key",
+		"map8Key",
+		"map9Key",
+		"map10Key",
+		"map11Key",
+		"map12Key",
+		"map13Key",
+		"map14Key",
+	],
 	score: 0,
 	lives: 1,
 	skin: 1,

@@ -37,13 +37,15 @@ export class GameScene extends Phaser.Scene
 		console.log('loading tilemap');
 		
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
-		this.load.tilemapTiledJSON("map", "../src/assets/tilemaps/map1.json");
+		this.load.tilemapTiledJSON(gameData.mapKeys[gameData.map], "../src/assets/tilemaps/map1.json");
 		
 		console.log('loading sprite sheets');
 		
 		player.loadSpriteSheets(this);
 		loadFruitSpriteSheets(this);
 		scoreBar.load(this);
+		
+		this.load.spritesheet("portalKey", "../src/assets/Other/greenPortal.png", {frameWidth: 56, frameHeight: 85});
 	}
 	
 	create ()
@@ -61,7 +63,7 @@ export class GameScene extends Phaser.Scene
 		
 		console.log("loading map and layers");
 		
-		map = this.make.tilemap({ key: "map" });
+		map = this.make.tilemap({ key: gameData.mapKeys[gameData.map] });
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
 		// add the background color to the map (different from canvas background)
