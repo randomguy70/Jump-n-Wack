@@ -1,6 +1,13 @@
 const baseUrl = "../src/assets/Enemies/";
 
-// each enemy has different abilities...so optimization isn't really possible here
+/*
+NOTE:
+	Indexing all of the dictionaries here works like this:
+		dict[name: string][action: string]
+	This is so that I can write more modular code and loop through all of the sprite sheet keys, animations, etc...without re-typing separate functions for each different enemy.
+	Since not all actions are common to all enemies, I have to check if the dict[name][action] is undefined. If so, then skip to the next action.
+*/
+
 
 const enemyNames =
 [
@@ -83,6 +90,23 @@ export const enemyAnimKeys =
 	},
 }
 
+export function spawnEnemiesFromLayer(spawnLayer, enemyGroup)
+{
+	spawnLayer.objects.forEach(object => {
+		if(object.type === "Enemy")
+		{
+			let obj = enemyGroup.create(object.x, object.y, object.name);
+			obj.body.width = obj.width;
+			obj.body.height = obj.height;
+			obj.name = object.name;
+			
+			// different enemies are different sizes...
+			if(obj.name === "Bunny") {obj.y -= 22}
+			if(obj.name === "AngryPig") {obj.y -= 15}
+		}
+	})
+}
+
 export function loadEnemySpriteSheets(scene)
 {
 	for(var i = 0; i < enemyNames.length; i++)
@@ -137,10 +161,10 @@ export function startAllEnemiesIdle(enemyGroup)
 	console.log("started all enemies with idle animation");
 }
 
-export function updateEnemies(enemies)
+export function updateEnemies(enemyGroup)
 {
-	enemies.children.entries.forEach(enemy => {
-		// ya da da da. bump. will change this soon.
+	enemyGroup.children.entries.forEach(enemy => {
+		
 	})
 	
 }

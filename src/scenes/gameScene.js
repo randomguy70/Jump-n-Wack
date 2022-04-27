@@ -1,8 +1,8 @@
-import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims, collectFruit} from '../fruits.js';
+import { spawnFruitsFromLayer, loadFruitSpriteSheets, createFruitAnims, collectFruit} from '../fruits.js';
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
 import {ScoreBar} from '../scoreBar.js';
-import {loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle} from '../enemies.js';
+import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle} from '../enemies.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -37,6 +37,7 @@ export class GameScene extends Phaser.Scene
 	preload ()
 	{
 		console.log('preloading...');
+		
 		console.log('loading tilemap');
 		
 		this.load.image("tiles", '../src/assets/tilesets/Terrain.png');
@@ -68,9 +69,7 @@ export class GameScene extends Phaser.Scene
 		map = this.make.tilemap({ key: gameData.mapKeys[gameData.map] });
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
-		// add the background color to the map (different from canvas background)
-		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
-		
+		// add the background color to the map (different from canvas background)		
 		drawBackground(this);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
@@ -79,33 +78,10 @@ export class GameScene extends Phaser.Scene
 		spawnLayer = map.getObjectLayer("Spawns");
 		
 		fruits = this.physics.add.staticGroup();
-		
-		objectLayer.objects.forEach(object => {
-			if(object.type === "Apple")
-			{
-				let obj = fruits.create(object.x + 8, object.y - 8, "Apple");
-      		obj.body.width = object.width;
-      		obj.body.height = object.height;
-				obj.anims.play(fruitAnimKeys.apple);
-			}
-		});
+		spawnFruitsFromLayer(objectLayer, fruits);
 		
 		enemies = this.physics.add.staticGroup();
-		
-		spawnLayer.objects.forEach(object => {
-			if(object.type === "Enemy")
-			{
-				let obj = enemies.create(object.x, object.y, object.name);
-				obj.body.width = obj.width;
-				obj.body.height = obj.height;
-				obj.name = object.name;
-				
-				// different enemies are different sizes...
-				if(obj.name === "Bunny") {obj.y -= 22}
-				if(obj.name === "AngryPig") {obj.y -= 15}
-			}
-		})
-		
+		spawnEnemiesFromLayer(spawnLayer, enemies);
 		startAllEnemiesIdle(enemies);
 		
 		worldLayer.setCollisionByProperty({ Collides: true });
