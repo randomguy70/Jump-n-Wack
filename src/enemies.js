@@ -111,22 +111,47 @@ export function loadEnemyAnims(scene)
 {
 	for(var i = 0; i < enemyNames.length; i++)
 	{
-		let name = enemySpriteSheetKeys[enemyNames[i]];
-		if(typeof(name) === "undefined")
+		let name = enemyNames[i];
+		if(typeof(enemyAnimKeys[name]) === "undefined")
 		{
 			continue;
 		}
+		let curEnemy = enemyAnimKeys[name];
+		
 		for(var ii = 0; ii < enemyActions.length; ii++)
 		{
-			
+			let action = enemyActions[ii];
+			if(typeof(name[action]) === "undefined")
+			{
+				continue;
+			}
+			let anim = scene.anims.create(
+				{
+				key: enemyAnimKeys[name][action],
+				frames: scene.anims.generateFrameNumbers(enemySpriteSheetKeys[name][action]),
+				frameRate: 20,
+				repeat: -1,
+			});
+			console.log("enemy animation: ", anim);
 		}
 	}
+	
+	console.log("loaded enemy animations");
+}
+
+export function startAllEnemiesIdle(enemyGroup)
+{
+	enemyGroup.children.entries.forEach(enemy => {
+		enemy.anims.play(enemyAnimKeys[enemy.name]["Idle"]);
+	})
+	
+	console.log("started all enemies with idle animation");
 }
 
 export function updateEnemies(enemies)
 {
-	for(var i = 0; i < enemies.objects.length; i++)
-	{
-		
-	}
+	enemies.children.entries.forEach(enemy => {
+		// ya da da da. bump. will change this soon.
+	})
+	
 }

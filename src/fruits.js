@@ -70,7 +70,6 @@ export function createFruitAnims(scene)
 		frameRate: 20,
 		repeat: -1,
 	});
-	console.log("apple animation", appleIdle);
 	bananaIdle = scene.anims.create(
 		{
 		key: fruitAnimKeys.apple,
@@ -126,8 +125,6 @@ export function collectFruit(player, fruit)
 {
 	
 	fruit.disableBody(true, true);
-	gameData.score += fruitValue;
-	
-	console.log("collected a fruit");
+	gameData.score += fruitValue;	
 }
 

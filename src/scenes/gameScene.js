@@ -2,7 +2,7 @@ import { fruitAnimKeys, loadFruitSpriteSheets, createFruitAnims, collectFruit} f
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
 import {ScoreBar} from '../scoreBar.js';
-import {loadEnemySpriteSheets} from '../enemies.js';
+import {loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle} from '../enemies.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -60,9 +60,9 @@ export class GameScene extends Phaser.Scene
 		
 		player.createAnims(this);
 		createFruitAnims(this);
+		loadEnemyAnims(this);
 		
 		// tilemap stuff
-		
 		console.log("loading map and layers");
 		
 		map = this.make.tilemap({ key: gameData.mapKeys[gameData.map] });
@@ -70,11 +70,11 @@ export class GameScene extends Phaser.Scene
 		
 		// add the background color to the map (different from canvas background)
 		console.log('map width ' + map.widthInPixels + ' map height ' + map.heightInPixels);
+		
 		drawBackground(this);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
 		worldLayer = map.createLayer("World", tileset, 0, 0);
-		
 		objectLayer = map.getObjectLayer('Objects');
 		spawnLayer = map.getObjectLayer("Spawns");
 		
@@ -98,11 +98,13 @@ export class GameScene extends Phaser.Scene
 				let obj = enemies.create(object.x, object.y, object.name);
 				obj.body.width = obj.width;
 				obj.body.height = obj.height;
+				obj.name = object.name;
 			}
 		})
 		
+		startAllEnemiesIdle(enemies);
+		
 		worldLayer.setCollisionByProperty({ Collides: true });
-		// obstaclesLayer.setCollisionByProperty({Kills: true});
 		
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
 		const playerSprite = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
