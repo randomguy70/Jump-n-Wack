@@ -92,6 +92,8 @@ export class GameScene extends Phaser.Scene
 		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
 		this.physics.add.collider(player.sprite, worldLayer);
 		
+		this.physics.add.collider(enemies, worldLayer);
+		
 		initialiseSystem(this, camera, cursors, controls);
 		
 		scoreBar.draw(this);
