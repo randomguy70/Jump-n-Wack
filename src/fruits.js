@@ -48,6 +48,8 @@ export function spawnFruitsFromLayer(objectLayer, fruitGroup)
 			let obj = fruitGroup.create(object.x + 8, object.y - 8, "Apple");
 			obj.body.width = object.width;
 			obj.body.height = object.height;
+			obj.body.x += 8;
+			obj.body.y += 5;
 			obj.anims.play(fruitAnimKeys.apple);
 		}
 	});

@@ -27,6 +27,20 @@ const enemySpeeds =
 	"Bunny": 60,
 }
 
+const enemyRanges = 
+{
+	"AngryPig":
+	{
+		x: 100,
+		y: 90
+	},
+	"Bunny":
+	{
+		x: 100,
+		y: 40
+	}
+}
+
 const enemyDimensions = 
 {
 	"AngryPig":
@@ -108,11 +122,21 @@ export function spawnEnemiesFromLayer(spawnLayer, enemyGroup)
 			obj.body.height = obj.height;
 			obj.name = object.name;
 			obj.body.collideWorldBounds = true;
+			obj.body.allowGravity = true;
+			obj.body.immovable = false;
 			obj.body.gravity = { x: 0, y: gameData.gravity };
 			
 			// different enemies are different sizes...
-			if(obj.name === "Bunny") { obj.y -= 22 }
-			if(obj.name === "AngryPig") { obj.y -= 15 }
+			if(obj.name === "Bunny") {
+				obj.y -= 22;
+				obj.body.y -= 22;
+				obj.body.height = enemyDimensions["Bunny"]["Height"];
+			}
+			if(obj.name === "AngryPig") {
+				obj.y -= 15;
+				obj.body.y -= 15;
+				obj.body.height = enemyDimensions["AngryPig"]["Height"];
+			}
 		}
 	})
 }
@@ -176,34 +200,34 @@ export function startAllEnemiesIdle(enemyGroup)
 export function updateEnemies(enemyGroup)
 {
 	// this is for random decisions
-	let seedBase = Math.random() * 1000000000000000;
-	let seed = 0;
-		
+	// let seedBase = Math.random() * 1000000000000000;
+	// let seed = 0;
+	
 	enemyGroup.children.entries.forEach(enemy => {
 		if(enemy.name === "AngryPig")
 		{
-			seed = (seedBase & (0xff << 0));
+			// seed = (seedBase & (0xff << 0));
 			
 			// the pig doesn't notice unless the player is within 100 pixels on the same plane. Then, he turns red and charges...
-			if(spriteIsWithinDistance(enemy, player.sprite, 100, 10))
+			if(spriteIsWithinDistance(enemy, player.sprite, enemyRanges["AngryPig"].x, enemyRanges["AngryPig"].y))
 			{
-				// btw, sprite is built to face left
 				if(enemy.anims.currentAnim.key != enemyAnimKeys["AngryPig"]["Run"])
 				{
 					enemy.anims.play(enemyAnimKeys["AngryPig"]["Run"]);
 				}
 				
+				// sprite is built to face left
+				
 				if(enemy.x < player.sprite.x)
 				{
 					enemy.body.flipX = true;
-					enemy.body.velocityX = 60;
+					// enemy.body.velocityX = 60;
 				}
 				else
 				{
 					enemy.body.flipX = false;
-					enemy.body.velocityX = -60;
+					// enemy.body.velocityX = -60;
 				}
-				
 			}
 			else
 			{

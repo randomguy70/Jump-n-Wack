@@ -2,7 +2,7 @@ import {GameScene} from './scenes/gameScene.js'
 
 var gameScene = new GameScene()
 
-export const config = {
+export const config = {	
 	type: Phaser.AUTO,
 	width: 800,
 	height: 600,
@@ -16,7 +16,7 @@ export const config = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 50, x: 0 },
-			debug: false
+			debug: true
 		}
 	},
 	dom: {

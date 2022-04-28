@@ -1,7 +1,7 @@
 import { spawnFruitsFromLayer, loadFruitSpriteSheets, createFruitAnims, collectFruit} from '../fruits.js';
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
-import {ScoreBar} from '../scoreBar.js';
+import {HealthBar} from '../healthBar.js';
 import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle, updateEnemies} from '../enemies.js';
 
 export var camera;           // phaser object
@@ -24,7 +24,7 @@ export var fruits;           // group
 export var enemies;          // group
 
 export var player = new Player(this);
-var scoreBar = new ScoreBar();
+var healthBar = new HealthBar();
 
 export class GameScene extends Phaser.Scene
 {	
@@ -47,7 +47,7 @@ export class GameScene extends Phaser.Scene
 		
 		player.loadSpriteSheets(this);
 		loadFruitSpriteSheets(this);
-		scoreBar.load(this);
+		healthBar.load(this);
 		loadEnemySpriteSheets(this);
 	}
 	
@@ -92,11 +92,11 @@ export class GameScene extends Phaser.Scene
 		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
 		this.physics.add.collider(player.sprite, worldLayer);
 		
-		this.physics.add.collider(enemies, worldLayer);
+		// this.physics.add.collider(enemies, worldLayer);
 		
 		initialiseSystem(this, camera, cursors, controls);
 		
-		scoreBar.draw(this);
+		healthBar.draw(this);
 	}
 	
 	update (time, delta)

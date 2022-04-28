@@ -1,7 +1,7 @@
 import {gameData} from "./main.js";
 import {player} from "./scenes/gameScene.js";
 
-export class ScoreBar
+export class HealthBar
 {
 	constructor()
 	{
