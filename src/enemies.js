@@ -129,8 +129,8 @@ export function spawnEnemiesFromLayer(spawnLayer, enemyGroup)
 			// different enemies are different sizes...
 			if(obj.name === "Bunny") {
 				obj.y -= 22;
-				obj.body.y -= 22;
-				obj.body.height = enemyDimensions["Bunny"]["Height"];
+				obj.body.y -= 26;
+				obj.body.height = enemyDimensions["Bunny"]["Height"] - 3;
 			}
 			if(obj.name === "AngryPig") {
 				obj.y -= 15;
@@ -221,12 +221,12 @@ export function updateEnemies(enemyGroup)
 				if(enemy.x < player.sprite.x)
 				{
 					enemy.body.flipX = true;
-					// enemy.body.velocityX = 60;
+					enemy.body.velocity.x = 60;
 				}
 				else
 				{
 					enemy.body.flipX = false;
-					// enemy.body.velocityX = -60;
+					enemy.body.velocity.x = -60;
 				}
 			}
 			else
