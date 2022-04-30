@@ -18,7 +18,7 @@ body {
 }
 
 .title {
-	/* display: block; */
+	display: block;
 	text-align: center;
 	text-transform: uppercase;
 	font: bold 55px/60px Arial, Helvetica, sans-serif;
