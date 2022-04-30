@@ -103,7 +103,7 @@ export class GameScene extends Phaser.Scene
 	{
 		controls.update(delta);
 		player.handleKeypresses(cursors);
-		// updateEnemies(enemies);
+		updateEnemies(enemies);
 	}
 }
 

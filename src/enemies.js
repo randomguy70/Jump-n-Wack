@@ -226,13 +226,13 @@ export function updateEnemies(enemiesArr)
 				
 				if(enemy.x < player.sprite.x)
 				{
-					enemy.body.flipX = true;
-					enemy.body.velocity.x = 60;
+					enemy.flipX = true;
+					enemy.body.setVelocityX(enemySpeeds["AngryPig"]);
 				}
 				else
 				{
-					enemy.body.flipX = false;
-					enemy.body.velocity.x = -60;
+					enemy.flipX = false;
+					enemy.body.setVelocityX(-(enemySpeeds["AngryPig"]));
 				}
 			}
 			else
