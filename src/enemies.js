@@ -112,44 +112,6 @@ export const enemyAnimKeys =
 	},
 }
 
-export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, player)
-{
-	spawnLayer.objects.forEach(object => {
-		if(object.type === "Enemy")
-		{
-			var x = object.x;
-			var y = object.y;
-			
-			// different enemies are different sizes...
-			if(object.name === "Bunny") {
-				y -= 16;
-				// var height = enemyDimensions["Bunny"]["Height"] - 3;
-			}
-			if(object.name === "AngryPig") {
-				y -= 16;
-				// var height = enemyDimensions["AngryPig"]["Height"];
-			}
-			
-			// let obj = enemyGroup.create(object.x, object.y, object.name);
-			let obj = scene.physics.add.sprite(x, y, enemyAnimKeys["AngryPig"]["Idle"]);
-			obj.name = object.name;
-			obj.anims.play(enemyAnimKeys[obj.name]["Idle"]);
-			obj.body.x = obj.x;
-			obj.body.y = obj.y;
-			obj.body.width = enemyDimensions[obj.name]["Width"];
-			obj.body.height = enemyDimensions[obj.name]["Height"];
-			obj.body.collideWorldBounds = true;
-			obj.body.allowGravity = true;
-			obj.body.gravity = { x: 0, y: gameData.gravity };
-			
-			scene.physics.add.collider(obj, worldLayer);
-			scene.physics.add.collider(obj, player); // need to add callback
-			
-			enemyArr.push(obj);
-		}
-	})
-}
-
 export function loadEnemySpriteSheets(scene)
 {
 	for(var i = 0; i < enemyNames.length; i++)
@@ -168,6 +130,41 @@ export function loadEnemySpriteSheets(scene)
 			);
 		}
 	}
+}
+
+export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, player)
+{
+	spawnLayer.objects.forEach(object => {
+		if(object.type === "Enemy")
+		{
+			var x = object.x;
+			var y = object.y;
+			
+			// different enemies are different sizes...
+			if(object.name === "Bunny") {
+				y -= 16;
+			}
+			if(object.name === "AngryPig") {
+				y -= 16;
+			}
+			
+			let obj = scene.physics.add.sprite(x, y, enemyAnimKeys["AngryPig"]["Idle"]);
+			obj.name = object.name;
+			obj.anims.play(enemyAnimKeys[obj.name]["Idle"]);
+			obj.body.x = obj.x;
+			obj.body.y = obj.y;
+			obj.body.width = enemyDimensions[obj.name]["Width"];
+			obj.body.height = enemyDimensions[obj.name]["Height"];
+			obj.body.collideWorldBounds = true;
+			obj.body.allowGravity = true;
+			obj.body.gravity = { x: 0, y: gameData.gravity };
+			
+			scene.physics.add.collider(obj, worldLayer);
+			scene.physics.add.collider(obj, player); // need to add callback
+			
+			enemyArr.push(obj);
+		}
+	})
 }
 
 export function loadEnemyAnims(scene)
