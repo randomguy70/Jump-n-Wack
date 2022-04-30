@@ -21,7 +21,7 @@ export var objectLayer;      // phaser map layer
 export var spawnLayer;       // phaser map layer
 
 export var fruits;           // group
-export var enemies;          // group
+export var enemies = [];     // sprite array
 
 export var player = new Player(this);
 var healthBar = new HealthBar();
@@ -80,9 +80,9 @@ export class GameScene extends Phaser.Scene
 		fruits = this.physics.add.staticGroup();
 		spawnFruitsFromLayer(objectLayer, fruits);
 		
-		enemies = this.physics.add.staticGroup();
-		spawnEnemiesFromLayer(spawnLayer, enemies);
-		startAllEnemiesIdle(enemies);
+		// enemies = this.physics.add.staticGroup();
+		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
+		// startAllEnemiesIdle(enemies);
 		
 		worldLayer.setCollisionByProperty({ Collides: true });
 		
@@ -103,7 +103,7 @@ export class GameScene extends Phaser.Scene
 	{
 		controls.update(delta);
 		player.handleKeypresses(cursors);
-		updateEnemies(enemies);
+		// updateEnemies(enemies);
 	}
 }
 

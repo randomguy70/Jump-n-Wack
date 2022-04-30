@@ -112,31 +112,40 @@ export const enemyAnimKeys =
 	},
 }
 
-export function spawnEnemiesFromLayer(spawnLayer, enemyGroup)
+export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, player)
 {
 	spawnLayer.objects.forEach(object => {
 		if(object.type === "Enemy")
 		{
-			let obj = enemyGroup.create(object.x, object.y, object.name);
-			obj.body.width = obj.width;
-			obj.body.height = obj.height;
-			obj.name = object.name;
-			obj.body.collideWorldBounds = true;
-			obj.body.allowGravity = true;
-			obj.body.immovable = false;
-			obj.body.gravity = { x: 0, y: gameData.gravity };
+			var x = object.x;
+			var y = object.y;
 			
 			// different enemies are different sizes...
-			if(obj.name === "Bunny") {
-				obj.y -= 22;
-				obj.body.y -= 26;
-				obj.body.height = enemyDimensions["Bunny"]["Height"] - 3;
+			if(object.name === "Bunny") {
+				y -= 16;
+				// var height = enemyDimensions["Bunny"]["Height"] - 3;
 			}
-			if(obj.name === "AngryPig") {
-				obj.y -= 15;
-				obj.body.y -= 15;
-				obj.body.height = enemyDimensions["AngryPig"]["Height"];
+			if(object.name === "AngryPig") {
+				y -= 16;
+				// var height = enemyDimensions["AngryPig"]["Height"];
 			}
+			
+			// let obj = enemyGroup.create(object.x, object.y, object.name);
+			let obj = scene.physics.add.sprite(x, y, enemyAnimKeys["AngryPig"]["Idle"]);
+			obj.name = object.name;
+			obj.anims.play(enemyAnimKeys[obj.name]["Idle"]);
+			obj.body.x = obj.x;
+			obj.body.y = obj.y;
+			obj.body.width = enemyDimensions[obj.name]["Width"];
+			obj.body.height = enemyDimensions[obj.name]["Height"];
+			obj.body.collideWorldBounds = true;
+			obj.body.allowGravity = true;
+			obj.body.gravity = { x: 0, y: gameData.gravity };
+			
+			scene.physics.add.collider(obj, worldLayer);
+			scene.physics.add.collider(obj, player); // need to add callback
+			
+			enemyArr.push(obj);
 		}
 	})
 }
@@ -197,13 +206,13 @@ export function startAllEnemiesIdle(enemyGroup)
 	console.log("started all enemies with idle animation");
 }
 
-export function updateEnemies(enemyGroup)
+export function updateEnemies(enemiesArr)
 {
 	// this is for random decisions
 	// let seedBase = Math.random() * 1000000000000000;
 	// let seed = 0;
 	
-	enemyGroup.children.entries.forEach(enemy => {
+	enemiesArr.forEach(enemy => {
 		if(enemy.name === "AngryPig")
 		{
 			// seed = (seedBase & (0xff << 0));
