@@ -150,6 +150,7 @@ export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, p
 			
 			let obj = scene.physics.add.sprite(x, y, enemyAnimKeys["AngryPig"]["Idle"]);
 			obj.name = object.name;
+			obj.isDead = false;
 			obj.anims.play(enemyAnimKeys[obj.name]["Idle"]);
 			obj.body.x = obj.x;
 			obj.body.y = obj.y;
@@ -160,7 +161,7 @@ export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, p
 			obj.body.gravity = { x: 0, y: gameData.gravity };
 			
 			scene.physics.add.collider(obj, worldLayer);
-			scene.physics.add.collider(obj, player); // need to add callback
+			scene.physics.add.collider(player, obj, handleEnemyCollision, null, this);
 			
 			enemyArr.push(obj);
 		}
@@ -179,12 +180,18 @@ export function loadEnemyAnims(scene)
 			let action = enemyActions[ii];
 			if(typeof(enemyAnimKeys[name][action]) === "undefined") { continue }
 			
+			var repeat = -1;
+			if(action === "Hit")
+			{
+				repeat = 1;
+			}
+			
 			scene.anims.create(
 			{
 				key: enemyAnimKeys[name][action],
 				frames: scene.anims.generateFrameNumbers(enemySpriteSheetKeys[name][action]),
 				frameRate: 20,
-				repeat: -1,
+				repeat: repeat,
 			});
 		}
 	}
@@ -210,6 +217,11 @@ export function updateEnemies(enemiesArr)
 	// let seed = 0;
 	
 	enemiesArr.forEach(enemy => {
+		if(enemy.isDead === true && enemy.anims.currentAnim.key != enemyAnimKeys[enemy.name]["Hit"])
+		{
+			enemy.disableBody(true, true);
+		}
+		
 		if(enemy.name === "AngryPig")
 		{
 			// seed = (seedBase & (0xff << 0));
@@ -265,4 +277,10 @@ function spriteIsWithinDistance(sprite1, sprite2, xDistance, yDistance)
 	{
 		return 1;
 	}
+}
+
+export function handleEnemyCollision(player, enemy)
+{
+	enemy.isDead = true;
+	enemy.anims.play(enemyAnimKeys[enemy.name]["Hit"]);
 }

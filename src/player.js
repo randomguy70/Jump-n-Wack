@@ -1,3 +1,5 @@
+import * as myMath from "./math.js";
+
 export const playerSkins = 
 [
 	'Mask Dude', 'Ninja Frog', 'Pink Man', 'Virtual Guy'
@@ -108,7 +110,11 @@ export class Player
 		this.skin = 1;
 		this.lives = 1;
 		this.score = 0;
-		this.speedX = 100;
+		this.isAccelerating = false;
+		this.startAccelerationTime = 0;
+		this.fullAccelerationTime = 2;
+		this.minSpeedX = 10;
+		this.maxSpeedX = 150;
 		this.speedY = 430;
 		this.width = 32;
 		this.height = 32;
@@ -198,12 +204,23 @@ export class Player
 	
 	handleKeypresses(cursors)
 	{
+		const date = new Date();
+		const time = date.getTime();
+		const elapsedTime = (time - this.startAccelerationTime) / 1000; // seconds
+		
+		let speed = Math.abs(this.sprite.body.velocityX);
 		this.sprite.body.setVelocityX(0);
 		
 		// Horizontal movement
 		
-		if (cursors.left.isDown)
+		let left = cursors.left.isDown;
+		let right = cursors.right.isDown;
+		let up = cursors.up.isDown;
+		
+		if (left)
 		{
+			// sprite stuff
+			
 			if(this.sprite.flipX === false)
 			{
 				this.sprite.flipX = true;
@@ -212,10 +229,36 @@ export class Player
 			{
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			this.sprite.body.setVelocityX(-this.speedX);
+			
+			// start accelerating
+			
+			if(speed < this.maxSpeedX && this.isAccelerating === false)
+			{
+				console.log("start accelerating");
+				this.isAccelerating = true;
+				this.startAccelerationTime = time;
+				speed = this.minSpeedX;
+			}
+			
+			// exponential acceleration (t^2 + min_speed)
+			
+			if(speed < this.maxSpeedX && this.isAccelerating === true)
+			{
+				speed = (elapsedTime * elapsedTime) + this.minSpeedX;
+				if(speed > this.maxSpeed)
+				{
+					speed = this.maxSpeed;
+					this.isAccelerating = false;
+				}
+			}
+			
+			console.log("prev speed: "+ speed)
+			myMath.restrict(speed, 0, this.maxSpeedX);
+			console.log("cur speed"+ speed);
+			this.sprite.body.setVelocityX(-speed);
 		}
 		
-		else if (cursors.right.isDown)
+		else if (right)
 		{
 			if(this.sprite.flipX === true)
 			{
@@ -225,12 +268,24 @@ export class Player
 			{
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			this.sprite.body.setVelocityX(this.speedX);
+			
+			if(speed < this.maxSpeedX)
+			{
+				this.isAccelerating = true;
+			}
+			this.sprite.body.setVelocityX(speed);
+		}
+		
+		else
+		{
+			this.isAccelerating = false;
+			this.startAccelerationTime = 0;
+			this.sprite.body.setVelocityX(0);
 		}
 		
 		// Vertical movement
 		
-		if (cursors.up.isDown && this.sprite.body.onFloor())
+		if (up && this.sprite.body.onFloor())
 		{
 			this.sprite.setVelocityY(-this.speedY);
 			this.sprite.anims.play(playerAnimKeys[this.skin].jump);
@@ -250,6 +305,7 @@ export class Player
 	{
 		this.sprite.anims.play(playerAnimKeys[this.skin].idle);
 	}
+	
 	jump()
 	{
 		this.sprite.anims.play(playerAnimKeys[this.skin].jump);

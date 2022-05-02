@@ -2,7 +2,7 @@ import { spawnFruitsFromLayer, loadFruitSpriteSheets, createFruitAnims, collectF
 import {config, gameData} from '../main.js';
 import {Player} from '../player.js';
 import {HealthBar} from '../healthBar.js';
-import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, startAllEnemiesIdle, updateEnemies} from '../enemies.js';
+import {spawnEnemiesFromLayer, loadEnemySpriteSheets, loadEnemyAnims, updateEnemies, handleEnemyCollision} from '../enemies.js';
 
 export var camera;           // phaser object
 export var cursors;          // phaser object
@@ -54,10 +54,9 @@ export class GameScene extends Phaser.Scene
 	create ()
 	{
 		console.log('creating...');
+		console.log("loading animations");
 		
 		graphics = this.add.graphics();
-		
-		console.log("loading animations");
 		
 		player.createAnims(this);
 		createFruitAnims(this);
@@ -80,10 +79,6 @@ export class GameScene extends Phaser.Scene
 		fruits = this.physics.add.staticGroup();
 		spawnFruitsFromLayer(objectLayer, fruits);
 		
-		// enemies = this.physics.add.staticGroup();
-		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
-		// startAllEnemiesIdle(enemies);
-		
 		worldLayer.setCollisionByProperty({ Collides: true });
 		
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
@@ -92,7 +87,7 @@ export class GameScene extends Phaser.Scene
 		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
 		this.physics.add.collider(player.sprite, worldLayer);
 		
-		// this.physics.add.collider(enemies, worldLayer);
+		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
 		
 		initialiseSystem(this, camera, cursors, controls);
 		

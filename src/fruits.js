@@ -133,4 +133,3 @@ export function collectFruit(player, fruit)
 	fruit.disableBody(true, true);
 	gameData.score += fruitValue;	
 }
-
