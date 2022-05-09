@@ -86,6 +86,7 @@ export class GameScene extends Phaser.Scene
 		player.initSprite(playerSprite, gameData.gravity);
 		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
 		this.physics.add.collider(player.sprite, worldLayer);
+		console.log("player: ", player);
 		
 		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
 		

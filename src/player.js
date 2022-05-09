@@ -4,6 +4,7 @@ export const playerSkins =
 [
 	'Mask Dude', 'Ninja Frog', 'Pink Man', 'Virtual Guy'
 ];
+
 const PLAYER_WIDTH = 32;
 const PLAYER_HEIGHT = 32;
 
@@ -110,6 +111,7 @@ export class Player
 		this.skin = 1;
 		this.lives = 1;
 		this.score = 0;
+		this.wasAccelerating = false;
 		this.isAccelerating = false;
 		this.startAccelerationTime = 0;
 		this.fullAccelerationTime = 2;
@@ -118,7 +120,8 @@ export class Player
 		this.speedY = 430;
 		this.width = 32;
 		this.height = 32;
-		console.log("player initialised: " + this);
+		
+		console.log("player initialised: ");
 	}
 	
 	initSprite(sprite, gravityY)
@@ -204,18 +207,52 @@ export class Player
 	
 	handleKeypresses(cursors)
 	{
+		const speed = Math.abs(this.sprite.body.velocity.x);
+		let newSpeed;
+		
+		const left = cursors.left.isDown;
+		const right = cursors.right.isDown;
+		const up = cursors.up.isDown;
+		
 		const date = new Date();
-		const time = date.getTime();
-		const elapsedTime = (time - this.startAccelerationTime) / 1000; // seconds
+		const time = date.getTime() / 1000; // seconds
+		const elapsedTime = time - this.startAccelerationTime;
+		const percentAccelerated = elapsedTime / this.fullAccelerationTime;
 		
-		let speed = Math.abs(this.sprite.body.velocityX);
-		this.sprite.body.setVelocityX(0);
+		const horizMovement = left || right;
+		const fullyAccelerated = speed >= this.maxSpeedX;
 		
-		// Horizontal movement
+		// not accelerating
 		
-		let left = cursors.left.isDown;
-		let right = cursors.right.isDown;
-		let up = cursors.up.isDown;
+		if(!horizMovement)
+		{
+			this.isAccelerating = false;
+			this.startAccelerationTime = 0;
+			newSpeed = 0;
+		}
+		
+		// start accelerating
+		
+		if(horizMovement && !this.isAccelerating && speed < this.maxSpeedX)
+		{
+			console.log("trigger acceleration");
+			this.startAccelerationTime = time;
+			this.isAccelerating = true;
+		}
+		
+		// continue accelerating, or stop accelerating
+		
+		else if(this.isAccelerating)
+		{
+			console.log("accelerating");
+			if(fullyAccelerated)
+			{
+				this.isAccelerating = false;
+				this.startAccelerationTime = 0;
+			}
+		}
+		
+		// horizontal movement
 		
 		if (left)
 		{
@@ -230,32 +267,10 @@ export class Player
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
 			
-			// start accelerating
-			
-			if(speed < this.maxSpeedX && this.isAccelerating === false)
+			if(this.isAccelerating)
 			{
-				console.log("start accelerating");
-				this.isAccelerating = true;
-				this.startAccelerationTime = time;
-				speed = this.minSpeedX;
+				newSpeed = -(percentAccelerated * this.maxSpeedX);
 			}
-			
-			// exponential acceleration (t^2 + min_speed)
-			
-			if(speed < this.maxSpeedX && this.isAccelerating === true)
-			{
-				speed = (elapsedTime * elapsedTime) + this.minSpeedX;
-				if(speed > this.maxSpeed)
-				{
-					speed = this.maxSpeed;
-					this.isAccelerating = false;
-				}
-			}
-			
-			console.log("prev speed: "+ speed)
-			myMath.restrict(speed, 0, this.maxSpeedX);
-			console.log("cur speed"+ speed);
-			this.sprite.body.setVelocityX(-speed);
 		}
 		
 		else if (right)
@@ -269,18 +284,10 @@ export class Player
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
 			
-			if(speed < this.maxSpeedX)
+			if(this.isAccelerating)
 			{
-				this.isAccelerating = true;
+				newSpeed = (percentAccelerated * this.maxSpeedX);
 			}
-			this.sprite.body.setVelocityX(speed);
-		}
-		
-		else
-		{
-			this.isAccelerating = false;
-			this.startAccelerationTime = 0;
-			this.sprite.body.setVelocityX(0);
 		}
 		
 		// Vertical movement
@@ -299,6 +306,16 @@ export class Player
 		{
 			this.sprite.anims.play(playerAnimKeys[this.skin].idle);
 		}
+		
+		// if(newSpeed > 150)
+		// {
+		// 	newSpeed = 150;
+		// }
+		// else if(newSpeed < -150)
+		// {
+		// 	newSpeed = -150;
+		// }
+		this.sprite.body.setVelocityX(newSpeed);
 	}
 	
 	idle()
