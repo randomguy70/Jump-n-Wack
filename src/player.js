@@ -228,7 +228,6 @@ export class Player
 			else if(velocity > (-this.maxSpeedX))
 			{
 				newVelocity -= (time - this.lastAccelerationUpdateTime) * this.acceleration;
-				console.log("new velocity " + newVelocity)
 				if(newVelocity < -this.maxSpeedX)
 				{
 					newVelocity = -this.maxSpeedX;
@@ -288,7 +287,7 @@ export class Player
 		
 		if (up && this.sprite.body.onFloor())
 		{
-			this.sprite.setVelocityY(-this.speedY);
+			this.sprite.setVelocityY(-this.jumpSpeed);
 			this.sprite.anims.play(playerAnimKeys[this.skin].jump);
 		}
 		else if (this.sprite.body.velocity.y > 0 && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].fall && !this.sprite.body.onFloor())
