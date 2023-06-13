@@ -24,6 +24,7 @@ export var fruits;           // group
 export var enemies = [];     // sprite array
 
 export var player = new Player(this);
+
 var healthBar = new HealthBar();
 
 export class GameScene extends Phaser.Scene

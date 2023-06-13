@@ -102,22 +102,23 @@ const playerAnimKeys =
 ]
 
 export class Player 
-{
+{	
 	constructor(scene)
 	{
+		const date = new Date();
+		
 		this.scene = scene;
 		this.basePath = "../src/assets/Main Characters/";
-		
 		this.skin = 1;
 		this.lives = 1;
 		this.score = 0;
-		this.wasAccelerating = false;
-		this.isAccelerating = false;
-		this.startAccelerationTime = 0;
-		this.fullAccelerationTime = 2;
-		this.minSpeedX = 10;
+		this.acceleration = 200; // (130 pixels)/(seconds squared)
+		this.lastAccelerationUpdateTime = date.getTime() / 1000;
+		console.log("1st time " + this.lastAccelerationUpdateTime);
+		
+		this.minSpeedX = 20;
 		this.maxSpeedX = 150;
-		this.speedY = 430;
+		this.jumpSpeed = 430;
 		this.width = 32;
 		this.height = 32;
 		
@@ -207,55 +208,33 @@ export class Player
 	
 	handleKeypresses(cursors)
 	{
-		const speed = Math.abs(this.sprite.body.velocity.x);
-		let newSpeed;
+		let velocity = this.sprite.body.velocity.x;
+		let newVelocity = velocity;
+		const date = new Date();
+		const time = date.getTime() / 1000;
 		
+		// XXX need to add wasd keys too
 		const left = cursors.left.isDown;
 		const right = cursors.right.isDown;
 		const up = cursors.up.isDown;
-		
-		const date = new Date();
-		const time = date.getTime() / 1000; // seconds
-		const elapsedTime = time - this.startAccelerationTime;
-		const percentAccelerated = elapsedTime / this.fullAccelerationTime;
-		
-		const horizMovement = left || right;
-		const fullyAccelerated = speed >= this.maxSpeedX;
-		
-		// not accelerating
-		
-		if(!horizMovement)
+				
+		if(left && !right)
 		{
-			this.isAccelerating = false;
-			this.startAccelerationTime = 0;
-			newSpeed = 0;
-		}
-		
-		// start accelerating
-		
-		if(horizMovement && !this.isAccelerating && speed < this.maxSpeedX)
-		{
-			console.log("trigger acceleration");
-			this.startAccelerationTime = time;
-			this.isAccelerating = true;
-		}
-		
-		// continue accelerating, or stop accelerating
-		
-		else if(this.isAccelerating)
-		{
-			console.log("accelerating");
-			if(fullyAccelerated)
+			// if starting from rest or changing directions
+			if(velocity >= 0)
 			{
-				this.isAccelerating = false;
-				this.startAccelerationTime = 0;
+				newVelocity = (-this.minSpeedX);
 			}
-		}
-		
-		// horizontal movement
-		
-		if (left)
-		{
+			else if(velocity > (-this.maxSpeedX))
+			{
+				newVelocity -= (time - this.lastAccelerationUpdateTime) * this.acceleration;
+				console.log("new velocity " + newVelocity)
+				if(newVelocity < -this.maxSpeedX)
+				{
+					newVelocity = -this.maxSpeedX;
+				}
+			}
+			
 			// sprite stuff
 			
 			if(this.sprite.flipX === false)
@@ -266,15 +245,27 @@ export class Player
 			{
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			
-			if(this.isAccelerating)
-			{
-				newSpeed = -(percentAccelerated * this.maxSpeedX);
-			}
 		}
 		
-		else if (right)
+		else if(right && !left)
 		{
+			// if starting from rest or changing directions
+			if(velocity <= 0)
+			{
+				newVelocity = this.minSpeedX;
+			}
+			
+			else if(velocity < this.maxSpeedX)
+			{
+				newVelocity += (time - this.lastAccelerationUpdateTime) * this.acceleration;
+				if(newVelocity > this.maxSpeedX)
+				{
+					newVelocity = this.maxSpeedX;
+				}
+			}
+			
+			// sprite stuff
+			
 			if(this.sprite.flipX === true)
 			{
 				this.sprite.flipX = false;
@@ -283,12 +274,15 @@ export class Player
 			{
 				this.sprite.anims.play(playerAnimKeys[this.skin].run);
 			}
-			
-			if(this.isAccelerating)
-			{
-				newSpeed = (percentAccelerated * this.maxSpeedX);
-			}
 		}
+		
+		else
+		{
+			newVelocity = 0;
+		}
+		
+		this.sprite.body.setVelocityX(newVelocity);
+		this.lastAccelerationUpdateTime = time;
 		
 		// Vertical movement
 		
@@ -301,21 +295,10 @@ export class Player
 		{
 			this.sprite.anims.play(playerAnimKeys[this.skin].fall);
 		}
-		
 		else if(!cursors.up.isDown && !cursors.right.isDown && !cursors.left.isDown && this.sprite.anims.isPlaying && this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].idle && this.sprite.body.onFloor())
 		{
 			this.sprite.anims.play(playerAnimKeys[this.skin].idle);
 		}
-		
-		// if(newSpeed > 150)
-		// {
-		// 	newSpeed = 150;
-		// }
-		// else if(newSpeed < -150)
-		// {
-		// 	newSpeed = -150;
-		// }
-		this.sprite.body.setVelocityX(newSpeed);
 	}
 	
 	idle()
