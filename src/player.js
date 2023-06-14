@@ -217,7 +217,7 @@ export class Player
 		const left = cursors.left.isDown;
 		const right = cursors.right.isDown;
 		const up = cursors.up.isDown;
-				
+		
 		if(left && !right)
 		{
 			// if starting from rest or changing directions
@@ -300,6 +300,8 @@ export class Player
 		}
 	}
 	
+	////////////////////// actions /////////////////////////
+	
 	idle()
 	{
 		this.sprite.anims.play(playerAnimKeys[this.skin].idle);
@@ -309,4 +311,5 @@ export class Player
 	{
 		this.sprite.anims.play(playerAnimKeys[this.skin].jump);
 	}
+	
 }
