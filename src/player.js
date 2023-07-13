@@ -112,9 +112,11 @@ export class Player
 		this.skin = 1;
 		this.lives = 1;
 		this.score = 0;
+
 		this.acceleration = 200; // (130 pixels)/(seconds squared)
 		this.lastAccelerationUpdateTime = date.getTime() / 1000;
-		console.log("1st time " + this.lastAccelerationUpdateTime);
+
+		this.lastHitTime = 0;
 		
 		this.minSpeedX = 20;
 		this.maxSpeedX = 150;
@@ -193,6 +195,14 @@ export class Player
 					frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].fall),
 					frameRate: 1,
 					repeat: -1,
+				}
+			);
+			scene.anims.create(
+				{
+					key: playerAnimKeys[i].hit,
+					frames: scene.anims.generateFrameNumbers(playerSpriteSheetKeys[i].hit),
+					frameRate: 1,
+					repeat: 1,
 				}
 			);
 		}
@@ -312,4 +322,12 @@ export class Player
 		this.sprite.anims.play(playerAnimKeys[this.skin].jump);
 	}
 	
+	hit()
+	{
+		if(this.sprite.anims.currentAnim.key != playerAnimKeys[this.skin].hit)
+		{
+			this.sprite.anims.play(playerAnimKeys[this.skin].hit);
+			this.lives--;
+		}
+	}
 }

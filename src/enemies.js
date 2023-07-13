@@ -1,9 +1,10 @@
-import { player } from "./scenes/gameScene.js";
-import { gameData } from "./main.js";
+import {Player} from "./player.js"
+import {player} from "./scenes/gameScene.js";
+import {gameData} from "./main.js";
 
 /*
 NOTE:
-	Indexing all of the dictionaries in this file works like this:
+	Indexing all of sprite & animation dictionaries in this file works like this:
 		dict[name: string][action: string]
 	This is so that I can write more modular code and loop through all of the sprite sheet keys, animations, etc...without re-typing separate functions for each different enemy.
 	Since not all actions are common to all enemies, I have to check if the dict[name][action] is undefined. If so, then skip to dealing with the next action.
@@ -31,13 +32,13 @@ const enemyRanges =
 {
 	"AngryPig":
 	{
-		x: 100,
-		y: 90
+		x: 50,
+		y: 30
 	},
 	"Bunny":
 	{
 		x: 100,
-		y: 40
+		y: 30
 	}
 }
 
@@ -141,10 +142,7 @@ export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, p
 			var y = object.y;
 			
 			// different enemies are different sizes...
-			if(object.name === "Bunny") {
-				y -= 16;
-			}
-			if(object.name === "AngryPig") {
+			if(object.name === "Bunny" || object.name === "AngryPig") {
 				y -= 16;
 			}
 			
@@ -161,7 +159,7 @@ export function spawnEnemiesFromLayer(scene, spawnLayer, worldLayer, enemyArr, p
 			obj.body.gravity = { x: 0, y: gameData.gravity };
 			
 			scene.physics.add.collider(obj, worldLayer);
-			scene.physics.add.collider(player, obj, handleEnemyCollision, null, this);
+			scene.physics.add.collider(player, obj, handleEnemyCollision);
 			
 			enemyArr.push(obj);
 		}
@@ -212,10 +210,6 @@ export function startAllEnemiesIdle(enemyGroup)
 
 export function updateEnemies(enemiesArr)
 {
-	// this is for random decisions
-	// let seedBase = Math.random() * 1000000000000000;
-	// let seed = 0;
-	
 	enemiesArr.forEach(enemy => {
 		if(enemy.isDead === true && enemy.anims.currentAnim.key != enemyAnimKeys[enemy.name]["Hit"])
 		{
@@ -224,8 +218,6 @@ export function updateEnemies(enemiesArr)
 		
 		if(enemy.name === "AngryPig")
 		{
-			// seed = (seedBase & (0xff << 0));
-			
 			// the pig doesn't notice unless the player is within 100 pixels on the same plane. Then, he turns red and charges...
 			if(spriteIsWithinDistance(enemy, player.sprite, enemyRanges["AngryPig"].x, enemyRanges["AngryPig"].y))
 			{
@@ -279,8 +271,8 @@ function spriteIsWithinDistance(sprite1, sprite2, xDistance, yDistance)
 	}
 }
 
-export function handleEnemyCollision(player, enemy)
+export function handleEnemyCollision()
 {
-	enemy.isDead = true;
-	enemy.anims.play(enemyAnimKeys[enemy.name]["Hit"]);
+	player.die();
+	console.log(player.lives);
 }

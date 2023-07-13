@@ -69,7 +69,7 @@ export class GameScene extends Phaser.Scene
 		map = this.make.tilemap({ key: gameData.mapKeys[gameData.map] });
 		tileset = map.addTilesetImage("terrain", "tiles", 16, 16, 0, 0);
 		
-		// add the background color to the map (different from canvas background)		
+		// add the background color to the map (different from canvas background)
 		drawBackground(this);
 		
 		belowPlayerLayer = map.createLayer("Below Player", tileset, 0, 0);
@@ -85,11 +85,13 @@ export class GameScene extends Phaser.Scene
 		const spawnPoint = map.findObject("Spawns", obj => obj.name === "Player");
 		const playerSprite = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, 'playerIdle', 0);
 		player.initSprite(playerSprite, gameData.gravity);
+		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
+		
+		this.physics.add.collider(player.sprite, enemies, player.die);
 		this.physics.add.overlap(player.sprite, fruits, collectFruit, null, this);
 		this.physics.add.collider(player.sprite, worldLayer);
 		console.log("player: ", player);
 		
-		spawnEnemiesFromLayer(this, spawnLayer, worldLayer, enemies, player.sprite);
 		
 		initialiseSystem(this, camera, cursors, controls);
 		
